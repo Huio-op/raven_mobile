@@ -27,7 +27,10 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <Image source={icons.home} resizeMode={'contain'} style={styles.bottomTabIcons} />
+              <View style={styles.viewCenter}>
+                <Image source={icons.home} resizeMode={'contain'} style={styles.bottomTabIcons} />
+                {focused && <View style={styles.selectedTab} />}
+              </View>
             );
           },
         }}
@@ -38,7 +41,10 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <Image source={icons.groups} resizeMode={'contain'} style={styles.bottomTabIcons} />
+              <View style={styles.viewCenter}>
+                <Image source={icons.groups} resizeMode={'contain'} style={styles.bottomTabIcons} />
+                {focused && <View style={styles.selectedTab} />}
+              </View>
             );
           },
         }}
@@ -75,11 +81,14 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <Image
-                source={icons.notifications}
-                resizeMode={'contain'}
-                style={styles.bottomTabIcons}
-              />
+              <View style={styles.viewCenter}>
+                <Image
+                  source={icons.notifications}
+                  resizeMode={'contain'}
+                  style={styles.bottomTabIcons}
+                />
+                {focused && <View style={styles.selectedTab} />}
+              </View>
             );
           },
         }}
@@ -91,7 +100,14 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <Image source={icons.profile} resizeMode={'contain'} style={styles.bottomTabIcons} />
+              <View style={styles.viewCenter}>
+                <Image
+                  source={icons.profile}
+                  resizeMode={'contain'}
+                  style={styles.bottomTabIcons}
+                />
+                {focused && <View style={styles.selectedTab} />}
+              </View>
             );
           },
         }}
@@ -139,5 +155,17 @@ const styles = StyleSheet.create({
     width: 23,
     height: 23,
     zIndex: 1,
+  },
+  selectedTab: {
+    width: 25,
+    height: 5,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    position: 'absolute',
+    bottom: -8,
+  },
+  viewCenter: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
