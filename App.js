@@ -22,6 +22,7 @@ export default function App() {
     mediumItalic: require('./assets/fonts/Poppins-MediumItalic.ttf'),
     semiBold: require('./assets/fonts/Poppins-SemiBold.ttf'),
     semiBoldItalic: require('./assets/fonts/Poppins-SemiBoldItalic.ttf'),
+    MaterialIcons: require('@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.ttf'),
   });
 
   const onLayoutRootView = useCallback(async () => {

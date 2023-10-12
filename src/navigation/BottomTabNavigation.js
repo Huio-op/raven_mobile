@@ -2,10 +2,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { COLORS } from '../constants';
 import { Create, Feed, Notifications, Profile } from '../screens';
 
-import { MaterialIcons } from '@expo/vector-icons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
+import { icons } from '../constants';
 import Groups from '../screens/Groups';
-import { Platform, StyleSheet } from 'react-native';
+import { Image, Platform, StyleSheet, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
 
 const Tab = createBottomTabNavigator();
 export default function BottomTabNavigation() {
@@ -24,11 +27,7 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <MaterialIcons
-                name={'home'}
-                size={24}
-                color={focused ? COLORS.primary : COLORS.black}
-              />
+              <Image source={icons.home} resizeMode={'contain'} style={styles.bottomTabIcons} />
             );
           },
         }}
@@ -39,11 +38,7 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <MaterialIcons
-                name={'groups'}
-                size={24}
-                color={focused ? COLORS.primary : COLORS.black}
-              />
+              <Image source={icons.groups} resizeMode={'contain'} style={styles.bottomTabIcons} />
             );
           },
         }}
@@ -55,9 +50,20 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <LinearGradient colors={['#F68464', '#EEA849']} style={styles.createTab}>
-                <MaterialIcons name={'add'} size={24} color={COLORS.black} />
-              </LinearGradient>
+              <View style={styles.createTab}>
+                <BlurView tint={'light'} intensity={20} style={styles.blurStyle}>
+                  <LinearGradient
+                    colors={['rgba(250,250,250,0.3)', 'rgba(250,250,250,0.4)']}
+                    style={styles.gradient}
+                  >
+                    <Image
+                      source={icons.plus}
+                      resizeMode={'contain'}
+                      style={styles.bottomTabIcons}
+                    />
+                  </LinearGradient>
+                </BlurView>
+              </View>
             );
           },
         }}
@@ -69,10 +75,10 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <MaterialIcons
-                name={'notifications'}
-                size={24}
-                color={focused ? COLORS.primary : COLORS.black}
+              <Image
+                source={icons.notifications}
+                resizeMode={'contain'}
+                style={styles.bottomTabIcons}
               />
             );
           },
@@ -85,11 +91,7 @@ export default function BottomTabNavigation() {
         options={{
           tabBarIcon: ({ focused }) => {
             return (
-              <MaterialIcons
-                name={'person'}
-                size={24}
-                color={focused ? COLORS.primary : COLORS.black}
-              />
+              <Image source={icons.profile} resizeMode={'contain'} style={styles.bottomTabIcons} />
             );
           },
         }}
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
     left: 0,
     elevation: 0,
     height: 60,
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.purple,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
@@ -116,8 +118,26 @@ const styles = StyleSheet.create({
     width: Platform.OS === 'ios' ? 50 : 60,
     height: Platform.OS === 'ios' ? 50 : 60,
     top: Platform.OS === 'ios' ? -10 : -20,
-    borderRadius: 22,
+    borderRadius: 100,
     borderColor: '#fff',
-    borderWidth: 4,
+    borderWidth: 2,
+    overflow: 'hidden',
+  },
+  blurStyle: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  gradient: {
+    height: '100%',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bottomTabIcons: {
+    width: 23,
+    height: 23,
+    zIndex: 1,
   },
 });
