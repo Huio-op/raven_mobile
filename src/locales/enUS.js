@@ -36,7 +36,12 @@ export default {
     },
   },
   welcome: {
-    welcomeToRaven: 'Welcome to',
+    welcomeToRaven: 'Index to',
     raven: 'Raven',
+    create: 'Create account',
+    login: 'Sign in',
+  },
+  feed: {
+    home: 'Home screen',
   },
 };

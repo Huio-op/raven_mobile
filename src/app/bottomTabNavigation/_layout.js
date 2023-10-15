@@ -1,17 +1,10 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { COLORS } from '../constants';
-import { Create, Feed, Notifications, Profile } from '../screens';
-
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-import { icons } from '../constants';
-import Groups from '../screens/Groups';
 import { Image, Platform, StyleSheet, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, icons } from '/constants';
 import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Tabs } from 'expo-router';
 
-const Tab = createBottomTabNavigator();
-export default function BottomTabNavigation() {
+export default function BottomTabNavigationLayout() {
   const screenOptions = {
     tabBarShowLabel: false,
     headerShown: false,
@@ -20,11 +13,11 @@ export default function BottomTabNavigation() {
   };
 
   return (
-    <Tab.Navigator screenOptions={screenOptions}>
-      <Tab.Screen
+    <Tabs screenOptions={screenOptions}>
+      <Tabs.Screen
         name={'Feed'}
-        component={Feed}
         options={{
+          headerShown: false,
           tabBarIcon: ({ focused }) => {
             return (
               <View style={styles.viewCenter}>
@@ -35,9 +28,8 @@ export default function BottomTabNavigation() {
           },
         }}
       />
-      <Tab.Screen
+      <Tabs.Screen
         name={'Groups'}
-        component={Groups}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -49,10 +41,8 @@ export default function BottomTabNavigation() {
           },
         }}
       />
-
-      <Tab.Screen
+      <Tabs.Screen
         name={'Create'}
-        component={Create}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -75,9 +65,8 @@ export default function BottomTabNavigation() {
         }}
       />
 
-      <Tab.Screen
+      <Tabs.Screen
         name={'Notifications'}
-        component={Notifications}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -94,9 +83,8 @@ export default function BottomTabNavigation() {
         }}
       />
 
-      <Tab.Screen
+      <Tabs.Screen
         name={'Profile'}
-        component={Profile}
         options={{
           tabBarIcon: ({ focused }) => {
             return (
@@ -112,7 +100,7 @@ export default function BottomTabNavigation() {
           },
         }}
       />
-    </Tab.Navigator>
+    </Tabs>
   );
 }
 

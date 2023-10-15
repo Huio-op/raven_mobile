@@ -38,5 +38,10 @@ export default {
   welcome: {
     welcomeTo: 'Bem vindo ao',
     raven: 'Raven',
+    create: 'Criar conta',
+    login: 'Fazer login',
+  },
+  feed: {
+    home: 'Página inicial',
   },
 };

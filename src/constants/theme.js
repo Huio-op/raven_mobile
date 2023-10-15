@@ -1,13 +1,15 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform, StatusBar } from 'react-native';
 const { height, width } = Dimensions.get('window');
 
 export const COLORS = {
-  primary: '#EEA849',
-  secondary: '#A9ADBC',
-  white: '#FFF9E8',
+  orange: '#EEA849',
+  'light-blue': '#A9ADBC',
+  white: '#FFFFFF',
+  cream: '#FFF9E8',
   black: '#212121',
   blue: '#027DEF',
   purple: '#0F004A',
+  'light-grey': '#E6EEFA',
 };
 
 export const SIZES = {
@@ -86,13 +88,21 @@ export const FONTS = {
     color: COLORS.black,
   },
   body4: {
-    fontWeight: 'rregular',
+    fontWeight: 'regular',
     fontSize: SIZES.body4,
     lineHeight: 20,
     color: COLORS.black,
   },
 };
 
-const appTheme = { COLORS, SIZES, FONTS };
+export const COMPONENTS = {
+  androidSafeArea: {
+    flex: 1,
+    backgroundColor: 'white',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  },
+};
+
+const appTheme = { COLORS, SIZES, FONTS, COMPONENTS };
 
 export default appTheme;
