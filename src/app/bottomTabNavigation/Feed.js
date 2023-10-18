@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 10,
+    height: '100%',
   },
   profileWrapper: {
     flexDirection: 'row',
