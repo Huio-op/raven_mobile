@@ -1,14 +1,14 @@
 {
   "expo": {
     "name": "Raven",
-    "slug": "Raven",
+    "slug": "raven-mobile",
     "scheme": "raven",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/raven_icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,17 +20,26 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/raven_icon.png",
+        "backgroundColor": "#FFF9E8"
       },
       "package": "com.anonymous.myapp"
     },
     "web": {
-      "favicon": "./assets/favicon.png",
+      "favicon": "./assets/raven_icon.png",
       "bundler": "metro"
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "30c0d63f-3e5e-482e-9716-686417eb79a3"
+      }
+    },
+    "owner": "huioop"
   }
 }

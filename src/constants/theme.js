@@ -101,6 +101,12 @@ export const COMPONENTS = {
     backgroundColor: 'white',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
+  defaultGradient: {
+    height: 135,
+    width: 135,
+    borderRadius: 135,
+    position: 'absolute',
+  },
 };
 
 const appTheme = { COLORS, SIZES, FONTS, COMPONENTS };

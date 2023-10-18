@@ -6,11 +6,13 @@ import React from 'react';
 const CustomButton = React.forwardRef(
   ({ title, customStyles, customTextStyles, type = BUTTON_TYPES.PRIMARY, onPress = noop }, ref) => {
     return (
-      <View ref={ref}>
-        <TouchableOpacity style={[styles.button, type.style, customStyles]} onPress={onPress}>
-          <Text style={[type.textStyle, customTextStyles]}>{title}</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        ref={ref}
+        style={[styles.button, type.style, customStyles]}
+        onPress={onPress}
+      >
+        <Text style={[type.textStyle, customTextStyles]}>{title}</Text>
+      </TouchableOpacity>
     );
   }
 );

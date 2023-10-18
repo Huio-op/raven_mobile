@@ -9,10 +9,7 @@ export default function WelcomeScreenLayout() {
 
   return (
     <Stack>
-      <Stack.Screen
-        name={'index'}
-        options={{ headerShown: false, animation: 'none' }}
-      ></Stack.Screen>
+      <Stack.Screen name={'index'} options={{ headerShown: false, animation: 'none' }} />
       <Stack.Screen
         name={'bottomTabNavigation'}
         options={{
@@ -20,7 +17,8 @@ export default function WelcomeScreenLayout() {
           headerShadowVisible: false,
           headerTitle: (props) => <CustomTitle title={t('feed.home')} />,
         }}
-      ></Stack.Screen>
+      />
+      <Stack.Screen name={'createAccount'} options={{ headerShown: false, animation: 'none' }} />
     </Stack>
   );
 }

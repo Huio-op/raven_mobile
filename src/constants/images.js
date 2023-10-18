@@ -17,6 +17,7 @@ const post3 = require('../../assets/images/post3.jpg');
 const post4 = require('../../assets/images/post4.jpg');
 const post5 = require('../../assets/images/post5.jpg');
 const raven = require('../../assets/images/raven.png');
+const raven_icon = require('../../assets/raven_icon.png');
 
 export default {
   hero,
@@ -38,4 +39,5 @@ export default {
   post4,
   post5,
   raven,
+  raven_icon,
 };

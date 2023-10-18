@@ -44,4 +44,14 @@ export default {
   feed: {
     home: 'Página inicial',
   },
+  form: {
+    email: 'E-mail',
+    userName: 'Nome de usuário',
+    password: 'Senha',
+    passwordConfirm: 'Confirmar senha',
+  },
+  createAccount: {
+    fillTheForm: 'Preencha o formulário para ter acesso ao Raven',
+    title: 'Crie sua conta',
+  },
 };

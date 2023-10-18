@@ -1,6 +1,6 @@
 import { View, Text, Image, SafeAreaView, StyleSheet } from 'react-native';
-import { COLORS, COMPONENTS, FONTS, images, SIZES } from '../constants';
-import CustomButton, { BUTTON_TYPES } from '../components/CustomButton';
+import { COLORS, COMPONENTS, FONTS, images, SIZES } from '/constants';
+import CustomButton, { BUTTON_TYPES } from '/components/CustomButton';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { router } from 'expo-router';
@@ -10,6 +10,10 @@ export default function Index() {
 
   const navigateToFeed = () => {
     router.replace('/bottomTabNavigation/Feed');
+  };
+
+  const navigateToCreate = () => {
+    router.replace('/createAccount/FirstStep');
   };
 
   return (
@@ -30,6 +34,7 @@ export default function Index() {
             title={t('welcome.create')}
             type={BUTTON_TYPES.SECONDARY}
             customStyles={styles.buttonWidth}
+            onPress={navigateToCreate}
           ></CustomButton>
         </View>
         {/*<View style={styles.dotsView}>{progress <= 1 && <DotsView progress={progress} />}</View>*/}
