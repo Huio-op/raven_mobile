@@ -9,6 +9,7 @@ export default function Feed() {
   const renderHeader = () => {
     return (
       <View style={styles.headerWrapper}>
+        <Text style={styles.tabText}>Feed</Text>
         {/*<View style={styles.profileWrapper}>*/}
         {/*  <TouchableOpacity style={styles.profileOpacity}></TouchableOpacity>*/}
         {/*</View>*/}
@@ -58,5 +59,8 @@ const styles = StyleSheet.create({
     shadowRadius: 6.5,
     elevation: 2,
     borderRadius: 22,
+  },
+  tabText: {
+    ...FONTS.h2,
   },
 });

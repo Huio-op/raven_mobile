@@ -6,9 +6,11 @@ import CustomButton from '/components/CustomButton';
 export default function Profile() {
   return (
     <View style={styles.container}>
-      <Link href={'/'} replace={true} asChild={true}>
-        <CustomButton title={'Sair'} customStyles={styles.logoutButton} />
-      </Link>
+      <View style={styles.exitButtonContainer}>
+        <Link href={'/'} replace={true} asChild={true}>
+          <CustomButton title={'Sair'} customStyles={styles.logoutButton} />
+        </Link>
+      </View>
     </View>
   );
 }
@@ -18,6 +20,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  exitButtonContainer: {
+    width: '80%',
+    alignItems: 'center',
   },
   logoutButton: {
     width: '100%',
