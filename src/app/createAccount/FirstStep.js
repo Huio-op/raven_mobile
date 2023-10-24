@@ -7,6 +7,7 @@ import {
   Platform,
   StyleSheet,
   Image,
+  TextInput,
 } from 'react-native';
 import { COLORS, COMPONENTS, FONTS, images } from '/constants';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -16,12 +17,24 @@ import CustomField from '/components/form/CustomField';
 import { FormWrapper } from '/hooks/useFormCtx';
 import { Form } from 'formik';
 import yup from '/service/yup';
-import CustomButton, { BUTTON_TYPES } from '../../components/CustomButton';
-import IconButton from '../../components/IconButton';
+import CustomButton, { BUTTON_TYPES } from '/components/CustomButton';
+import IconButton from '/components/IconButton';
 import { router } from 'expo-router';
+import Input from '../../components/form/Input';
 
 const CreateAccountSchema = yup.object().shape({
-  email: yup.string().default(''),
+  email: yup.string().default('').email().required(),
+  userName: yup.string().default('').required(),
+  password: yup
+    .string()
+    .default('')
+    .required()
+    .min(3)
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+      'formik.string.password'
+    ),
+  passwordConfirm: yup.string().default('').required().min(3),
 });
 
 export default function FirstStep() {
@@ -31,10 +44,14 @@ export default function FirstStep() {
     router.replace('/');
   };
 
+  const submitCreateScreen = async (values) => {
+    console.log('asndbasyudvasdsadas', values);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === 'ios' ? 'padding' : ''}>
-        <ScrollView contentContainerStyle={styles.flex}>
+        <ScrollView contentContainerStyle={styles.flex} automaticallyAdjustKeyboardInsets={true}>
           <View style={styles.pageWrapper}>
             <View style={styles.backWrapper}>
               <IconButton onPress={backToWelcome} />
@@ -42,40 +59,59 @@ export default function FirstStep() {
             <Image source={images.raven_icon} resizeMode={'contain'} style={styles.ravenIcon} />
             <Text style={styles.title}>{t('createAccount.title')}</Text>
             <View style={styles.formContainer}>
-              <FormWrapper initialValues={CreateAccountSchema.default()}>
-                <View style={styles.createAccountForm}>
-                  <Text style={styles.formDesc}>{t('createAccount.fillTheForm')}</Text>
-
-                  <CustomField
-                    label={t('form.email')}
-                    labelStyle={styles.whiteLabel}
-                    rootStyle={styles.field}
-                    name={'email'}
-                  />
-                  <CustomField
-                    label={t('form.name')}
-                    labelStyle={styles.whiteLabel}
-                    rootStyle={styles.field}
-                    name={'userName'}
-                  />
-                  <CustomField
-                    label={t('form.password')}
-                    labelStyle={styles.whiteLabel}
-                    rootStyle={styles.field}
-                    name={'password'}
-                  />
-                  <CustomField
-                    label={t('form.passwordConfirm')}
-                    labelStyle={styles.whiteLabel}
-                    rootStyle={styles.field}
-                    name={'passwordConfirm'}
-                  />
-                  <CustomButton
-                    title={t('welcome.create')}
-                    type={BUTTON_TYPES.SECONDARY}
-                    customStyles={styles.confirmButton}
-                  />
-                </View>
+              <FormWrapper
+                validationSchema={CreateAccountSchema}
+                initialValues={CreateAccountSchema.default()}
+                onSubmit={submitCreateScreen}
+                validateOnChange={false}
+              >
+                {({ submitForm, errors, values, ...props }) => {
+                  console.log('propsprops', values);
+                  return (
+                    <ScrollView
+                      style={styles.scroll}
+                      automaticallyAdjustKeyboardInsets={true}
+                      contentContainerStyle={{ alignItems: 'center' }}
+                    >
+                      <View style={styles.createAccountForm}>
+                        <Text style={styles.formDesc}>{t('createAccount.fillTheForm')}</Text>
+                        <CustomField
+                          label={t('form.email')}
+                          labelStyle={styles.whiteLabel}
+                          rootStyle={styles.field}
+                          name={'email'}
+                          removeClippedSubviews={false}
+                        />
+                        <CustomField
+                          label={t('form.userName')}
+                          labelStyle={styles.whiteLabel}
+                          rootStyle={styles.field}
+                          name={'userName'}
+                        />
+                        <CustomField
+                          label={t('form.password')}
+                          labelStyle={styles.whiteLabel}
+                          rootStyle={styles.field}
+                          name={'password'}
+                          secureTextEntry={true}
+                        />
+                        <CustomField
+                          label={t('form.passwordConfirm')}
+                          labelStyle={styles.whiteLabel}
+                          rootStyle={styles.field}
+                          name={'passwordConfirm'}
+                          secureTextEntry={true}
+                        />
+                        <CustomButton
+                          title={t('welcome.create')}
+                          type={BUTTON_TYPES.SECONDARY}
+                          customStyles={styles.confirmButton}
+                          onPress={submitForm}
+                        />
+                      </View>
+                    </ScrollView>
+                  );
+                }}
               </FormWrapper>
             </View>
           </View>
@@ -91,6 +127,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.cream,
   },
   flex: {
+    flex: 1,
+  },
+  scroll: {
     flex: 1,
   },
   pageWrapper: {
@@ -110,8 +149,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    borderTopRightRadius: 100,
-    borderTopLeftRadius: 100,
+    borderTopRightRadius: 40,
+    borderTopLeftRadius: 40,
     height: 500,
   },
   whiteLabel: {
@@ -131,11 +170,12 @@ const styles = StyleSheet.create({
     height: '100%',
     flex: 1,
     alignItems: 'center',
-    gap: 20,
+    gap: 5,
   },
   formDesc: {
     ...FONTS.h3,
     color: COLORS.cream,
+    width: '100%',
   },
   field: {
     width: '100%',

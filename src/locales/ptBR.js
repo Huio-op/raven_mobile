@@ -15,6 +15,7 @@ export default {
       trim: 'Não deve conter espaços no início ou no fim.',
       lowercase: 'Deve estar em maiúsculo',
       uppercase: 'Deve estar em minúsculo',
+      password: 'Deve conter 3 caracteres, uma letra maiúscula, um número e um caracter especial',
     },
     number: {
       min: 'Deve ser no mínimo ${min}',

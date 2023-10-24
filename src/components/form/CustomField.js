@@ -38,12 +38,19 @@ export default function CustomField({
   const fieldName = _get(props, 'field.name', props.name);
   const generateErrorMessage = (formikCtx) => {
     let errorMessage = _get(formikCtx.errors, fieldName);
-
     if (i18n.exists(`errors.${errorMessage}`)) {
       errorMessage = t(`errors.${errorMessage}`);
+    } else if (i18n.exists(`${errorMessage}`)) {
+      errorMessage = t(`${errorMessage}`);
     }
     return errorMessage;
   };
+
+  const onChangeField = (value) => {
+    console.log('vavavavavavavava', value);
+    formikCtx.setFieldValue(fieldName, value);
+  };
+
   const showErrorContainer = !!fieldName && !props.disabled && showErrors;
   const errorMessage = generateErrorMessage(formikCtx);
   const showErrorMessage = showErrorContainer && errorMessage && formikCtx.submitCount > 0;
@@ -51,6 +58,7 @@ export default function CustomField({
   const fieldSchema = fieldName ? _get(validationSchema?.fields, buildSchemaPath(fieldName)) : null;
   const isRequired = !!fieldSchema?.exclusiveTests?.required;
 
+  console.log('asudasduisbauidasdas', showErrorContainer);
   return (
     <View style={[styles.fieldComponent, rootStyle]}>
       <Text style={[styles.label, labelStyle]}>
@@ -58,8 +66,8 @@ export default function CustomField({
         {isRequired ? '*' : ''}
       </Text>
       <View style={styles.fieldWrapper}>
-        <InputComponent {...props} {...asProps} />
-        {showErrorContainer && <Text>{errorMessage}</Text>}
+        <InputComponent onChangeText={onChangeField} {...props} {...asProps} />
+        {showErrorContainer && <Text style={styles.errorMsg}>{errorMessage}</Text>}
       </View>
     </View>
   );
@@ -81,5 +89,8 @@ const styles = StyleSheet.create({
   },
   fieldDisabled: {
     opacity: 0.5,
+  },
+  errorMsg: {
+    color: COLORS.red,
   },
 });

@@ -15,6 +15,8 @@ export default {
       trim: 'Must be a trimmed string',
       lowercase: 'Must be a lowercase string',
       uppercase: 'Must be a upper case string',
+      password:
+        'Must Contain 3 Characters, One Uppercase, One Number and One Special Case Character',
     },
     number: {
       min: 'Must be greater than or equal to ${min}',
