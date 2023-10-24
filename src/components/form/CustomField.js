@@ -47,7 +47,6 @@ export default function CustomField({
   };
 
   const onChangeField = (value) => {
-    console.log('vavavavavavavava', value);
     formikCtx.setFieldValue(fieldName, value);
   };
 
@@ -58,7 +57,6 @@ export default function CustomField({
   const fieldSchema = fieldName ? _get(validationSchema?.fields, buildSchemaPath(fieldName)) : null;
   const isRequired = !!fieldSchema?.exclusiveTests?.required;
 
-  console.log('asudasduisbauidasdas', showErrorContainer);
   return (
     <View style={[styles.fieldComponent, rootStyle]}>
       <Text style={[styles.label, labelStyle]}>

@@ -66,7 +66,6 @@ export default function FirstStep() {
                 validateOnChange={false}
               >
                 {({ submitForm, errors, values, ...props }) => {
-                  console.log('propsprops', values);
                   return (
                     <ScrollView
                       style={styles.scroll}
