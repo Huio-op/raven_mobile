@@ -21,6 +21,8 @@ import CustomButton, { BUTTON_TYPES } from '/components/CustomButton';
 import IconButton from '/components/IconButton';
 import { router } from 'expo-router';
 import Input from '../../components/form/Input';
+import UiMsg from '/service/UiMsg';
+import UserApi from '../../service/api/UserApi';
 
 const CreateAccountSchema = yup.object().shape({
   email: yup.string().default('').email().required(),
@@ -45,7 +47,13 @@ export default function FirstStep() {
   };
 
   const submitCreateScreen = async (values) => {
-    console.log('asndbasyudvasdsadas', values);
+    try {
+      console.log('erroeroere', values);
+      await UserApi.createUser(values);
+      // UiMsg.ok('Usuário criado com sucesso!');
+    } catch (e) {
+      console.error('Error on function submitCreateScreen()', { ...e });
+    }
   };
 
   return (
