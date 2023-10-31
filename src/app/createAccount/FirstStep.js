@@ -1,28 +1,24 @@
 import {
-  View,
-  Text,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  ScrollView,
-  Platform,
-  StyleSheet,
   Image,
-  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import { COLORS, COMPONENTS, FONTS, images } from '/constants';
-import { LinearGradient } from 'expo-linear-gradient';
+import { COLORS, FONTS, images } from '/constants';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomField from '/components/form/CustomField';
 import { FormWrapper } from '/hooks/useFormCtx';
-import { Form } from 'formik';
 import yup from '/service/yup';
 import CustomButton, { BUTTON_TYPES } from '/components/CustomButton';
 import IconButton from '/components/IconButton';
 import { router } from 'expo-router';
-import Input from '../../components/form/Input';
-import UiMsg from '/service/UiMsg';
-import UserApi from '../../service/api/UserApi';
+import UserApi from '/service/api/UserApi';
+import UiMsg from '../../service/UiMsg';
 
 const CreateAccountSchema = yup.object().shape({
   email: yup.string().default('').email().required(),
@@ -48,9 +44,9 @@ export default function FirstStep() {
 
   const submitCreateScreen = async (values) => {
     try {
-      console.log('erroeroere', values);
       await UserApi.createUser(values);
       // UiMsg.ok('Usuário criado com sucesso!');
+      router.replace('/login/Login');
     } catch (e) {
       console.error('Error on function submitCreateScreen()', { ...e });
     }

@@ -8,8 +8,8 @@ import { router } from 'expo-router';
 export default function Index() {
   const { t } = useTranslation();
 
-  const navigateToFeed = () => {
-    router.replace('/bottomTabNavigation/Feed');
+  const navigateToLogin = () => {
+    router.replace('/login/Login');
   };
 
   const navigateToCreate = () => {
@@ -26,8 +26,8 @@ export default function Index() {
         </View>
         <View style={styles.buttonWrapper}>
           <CustomButton
-            title={t('welcome.login')}
-            onPress={navigateToFeed}
+            title={t('login.enter')}
+            onPress={navigateToLogin}
             customStyles={styles.buttonWidth}
           ></CustomButton>
           <CustomButton

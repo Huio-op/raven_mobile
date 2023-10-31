@@ -54,5 +54,13 @@ export default {
   createAccount: {
     fillTheForm: 'Preencha o formulário para ter acesso ao Raven',
     title: 'Crie sua conta',
+    createSuccess: 'Usuário criado com sucesso!',
+  },
+  login: {
+    title: 'Entre em sua conta',
+    enter: 'Entrar',
+    errors: {
+      userNotFound: 'Email ou senha não encontrados, verifique se as informações estão corretas',
+    },
   },
 };
