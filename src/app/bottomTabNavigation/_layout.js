@@ -52,23 +52,7 @@ export default function BottomTabNavigationLayout() {
           name={'Create'}
           options={{
             tabBarIcon: ({ focused }) => {
-              return (
-                // <View style={styles.createTab}>
-                //   <BlurView tint={'light'} intensity={20} style={styles.blurStyle}>
-                //     <LinearGradient
-                //       colors={['rgba(250,250,250,0.3)', 'rgba(250,250,250,0.4)']}
-                //       style={styles.gradient}
-                //     >
-                //       <Image
-                //         source={icons.plus}
-                //         resizeMode={'contain'}
-                //         style={styles.bottomTabIcons}
-                //       />
-                //     </LinearGradient>
-                //   </BlurView>
-                // </View>
-                <CreatePostButton />
-              );
+              return <CreatePostButton />;
             },
           }}
         />
