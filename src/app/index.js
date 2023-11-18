@@ -1,23 +1,34 @@
 import { View, Text, Image, SafeAreaView, StyleSheet } from 'react-native';
 import { COLORS, COMPONENTS, FONTS, images, SIZES } from '/constants';
 import CustomButton, { BUTTON_TYPES } from '/components/CustomButton';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { router } from 'expo-router';
+import { router, SplashScreen } from 'expo-router';
+import { useFonts } from 'expo-font';
 
 export default function Index() {
   const { t } = useTranslation();
+  const [fontsLoaded, fontError] = useFonts({
+    'Poppins-Black': require('../../assets/fonts/Poppins-Black.ttf'),
+  });
 
   const navigateToLogin = () => {
-    router.replace('/login/Login');
+    // router.replace('/login/Login');
+    router.replace('/bottomTabNavigation/Feed');
   };
 
   const navigateToCreate = () => {
     router.replace('/createAccount/FirstStep');
   };
 
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>
       <View style={styles.view}>
         <Image source={images.raven} resizeMode={'contain'} style={styles.headerImage} />
         <View style={styles.itemsCenter}>

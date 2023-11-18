@@ -2,13 +2,19 @@ import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-na
 import React from 'react';
 import { FONTS, COMPONENTS } from '/constants';
 import { useTranslation } from 'react-i18next';
+import Post from '../../components/posts/Post';
 
 export default function Feed() {
   const { t } = useTranslation();
 
   const renderHeader = () => {
     return (
-      <View style={styles.headerWrapper}>
+      <View style={styles.feedPage}>
+        <Post
+          text={
+            'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite'
+          }
+        />
         <Text style={styles.tabText}>Feed</Text>
         {/*<View style={styles.profileWrapper}>*/}
         {/*  <TouchableOpacity style={styles.profileOpacity}></TouchableOpacity>*/}
@@ -33,6 +39,12 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     paddingHorizontal: 22,
+  },
+  feedPage: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 10,
   },
   headerWrapper: {
     flexDirection: 'row',

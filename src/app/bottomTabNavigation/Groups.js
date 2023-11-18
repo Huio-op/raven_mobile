@@ -5,7 +5,7 @@ import React from 'react';
 export default function Groups() {
   return (
     <View style={styles.container}>
-      <Text style={styles.tabText}>Groups</Text>
+      <Text style={styles.tabText}>Em Breve!</Text>
     </View>
   );
 }
