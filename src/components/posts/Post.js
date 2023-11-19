@@ -7,12 +7,18 @@ export default function Post({ user = {}, text = '' }) {
   return (
     <View style={styles.Post}>
       <View style={styles.header}>
-        {/*<Image style={styles.userPfp}></Image>*/}
+        <Image
+          style={styles.userPfp}
+          source={`./assets/images/${user.userProfile.profile_picture_id}`}
+        />
         <View style={styles.userInfo}>
-          <Text style={styles.userName}></Text>
-          <Text style={styles.userAt}></Text>
+          <Text style={styles.userName}>{user.name}</Text>
+          <View style={styles.atWrapper}>
+            <Text style={styles.userAt}>@</Text>
+            <Text style={styles.userAt}>{user.unique_key}</Text>
+          </View>
         </View>
-        <IconButton icon={'more-vertical'} />
+        <Feather name={'more-vertical'} style={styles.moreButton} />
       </View>
       <Text style={styles.text}>{text}</Text>
       <View style={styles.interactions}>
@@ -44,13 +50,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: '22px',
     flex: 1,
     gap: 5,
+    width: '100%',
   },
   header: {
-    display: 'inline-flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
   userPfp: {
     borderRadius: '100%',
     border: '1px solid #fff',
+    width: 36,
+    height: 36,
   },
   text: {
     color: '#000',
@@ -61,6 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     gap: 2,
+    cursor: 'pointer',
   },
   leftInteractions: {
     flexDirection: 'row',
@@ -68,12 +80,30 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 16,
+    cursor: 'pointer',
   },
   counterNumber: {
     fontSize: 18,
   },
   interactions: {
     justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  moreButton: {
+    fontSize: 20,
+    cursor: 'pointer',
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    color: COLORS.black,
+    fontWeight: 'bold',
+  },
+  userAt: {
+    color: COLORS.grey,
+  },
+  atWrapper: {
     flexDirection: 'row',
   },
 });

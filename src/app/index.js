@@ -13,8 +13,8 @@ export default function Index() {
   });
 
   const navigateToLogin = () => {
-    router.replace('/login/Login');
-    // router.replace('/bottomTabNavigation/Feed');
+    // router.replace('/login/Login');
+    router.replace('/bottomTabNavigation/Feed');
   };
 
   const navigateToCreate = () => {
