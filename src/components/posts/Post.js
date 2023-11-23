@@ -1,16 +1,26 @@
-import { Image, Text, View, StyleSheet } from 'react-native';
-import { COLORS, FONTS } from '../../constants';
+import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
+import { COLORS, FONTS, images } from '../../constants';
 import IconButton from '../IconButton';
-import { Feather } from '@expo/vector-icons';
+import { Feather, FontAwesome } from '@expo/vector-icons';
+import { useState } from 'react';
 
-export default function Post({ user = {}, text = '' }) {
+export default function Post({ post = {} }) {
+  const [liked, setLiked] = useState(false);
+
+  const toggleLike = () => {
+    setLiked(!liked);
+  };
+
+  const text = post.text;
+  const user = post.user;
+  const likeCounter = post.likesCount + (liked ? 1 : 0);
+
   return (
     <View style={styles.Post}>
       <View style={styles.header}>
-        <Image
-          style={styles.userPfp}
-          source={`./assets/images/${user.userProfile.profile_picture_id}`}
-        />
+        <View style={styles.userPfpWrapper}>
+          <Image style={styles.userPfp} source={images.user1} />
+        </View>
         <View style={styles.userInfo}>
           <Text style={styles.userName}>{user.name}</Text>
           <View style={styles.atWrapper}>
@@ -25,7 +35,12 @@ export default function Post({ user = {}, text = '' }) {
         <View style={styles.leftInteractions}>
           <InteractionCounter icon={'message-square'} />
           <InteractionCounter icon={'repeat'} />
-          <InteractionCounter icon={'heart'} />
+          <InteractionCounter
+            icon={'heart'}
+            count={likeCounter}
+            onPress={toggleLike}
+            interacted={liked}
+          />
         </View>
         <Feather style={styles.icon} name={'share'} />
       </View>
@@ -33,12 +48,23 @@ export default function Post({ user = {}, text = '' }) {
   );
 }
 
-const InteractionCounter = ({ icon, count = 0 }) => {
+const InteractionCounter = ({
+  icon,
+  count = 0,
+  onPress = () => {},
+  style = {},
+  interacted = false,
+}) => {
   return (
-    <View style={styles.interactionCounter}>
-      <Feather style={styles.icon} name={icon} />
-      <Text style={styles.counterNumber}>{count}</Text>
-    </View>
+    <Pressable style={[styles.interactionCounter]} onPress={onPress}>
+      {!interacted && (
+        <Feather style={[styles.icon, interacted ? styles.likedIcon : {}]} name={icon} />
+      )}
+      {interacted && (
+        <FontAwesome style={[styles.icon, interacted ? styles.likedIcon : {}]} name={icon} />
+      )}
+      <Text style={[styles.counterNumber, interacted ? styles.likedIcon : {}]}>{count}</Text>
+    </Pressable>
   );
 };
 
@@ -46,9 +72,8 @@ const styles = StyleSheet.create({
   Post: {
     borderRadius: 30,
     backgroundColor: COLORS['light-grey'],
-    paddingVertical: '10px',
-    paddingHorizontal: '22px',
-    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 22,
     gap: 5,
     width: '100%',
   },
@@ -57,9 +82,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 5,
   },
+  userPfpWrapper: {
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: COLORS.white,
+    width: 36,
+    height: 36,
+  },
   userPfp: {
-    borderRadius: '100%',
-    border: '1px solid #fff',
+    borderRadius: 100,
     width: 36,
     height: 36,
   },
@@ -72,7 +103,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     gap: 2,
-    cursor: 'pointer',
   },
   leftInteractions: {
     flexDirection: 'row',
@@ -80,7 +110,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 16,
-    cursor: 'pointer',
   },
   counterNumber: {
     fontSize: 18,
@@ -91,7 +120,6 @@ const styles = StyleSheet.create({
   },
   moreButton: {
     fontSize: 20,
-    cursor: 'pointer',
   },
   userInfo: {
     flex: 1,
@@ -105,5 +133,8 @@ const styles = StyleSheet.create({
   },
   atWrapper: {
     flexDirection: 'row',
+  },
+  likedIcon: {
+    color: COLORS.blue,
   },
 });

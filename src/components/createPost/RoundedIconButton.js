@@ -39,6 +39,9 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     zIndex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
   },
   blurStyle: {
     width: '100%',

@@ -63,4 +63,8 @@ export default {
       userNotFound: 'Email ou senha não encontrados, verifique se as informações estão corretas',
     },
   },
+  post: {
+    post: 'Postar',
+    placeholder: 'O que está pensando?',
+  },
 };

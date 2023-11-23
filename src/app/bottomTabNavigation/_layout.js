@@ -50,6 +50,12 @@ export default function BottomTabNavigationLayout() {
         />
         <Tabs.Screen
           name={'Create'}
+          listeners={{
+            tabPress: (e) => {
+              // Prevent default action
+              e.preventDefault();
+            },
+          }}
           options={{
             tabBarIcon: ({ focused }) => {
               return <CreatePostButton />;

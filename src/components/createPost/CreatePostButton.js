@@ -6,13 +6,17 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Animated,
+  Modal,
+  Text,
 } from 'react-native';
 import RoundedIconButton from './RoundedIconButton';
 import { useMemo, useState } from 'react';
+import WritePostModal from '../posts/WritePostModal';
 
 export default function CreatePostButton() {
   const [open, setOpen] = useState(false);
   const [animation] = useState(new Animated.Value(0));
+  const [modalOpen, setModalOpen] = useState(false);
 
   const toggleMenu = () => {
     const toValue = open ? 0 : 1;
@@ -40,8 +44,20 @@ export default function CreatePostButton() {
     outputRange: [0, -80],
   });
 
+  const openPostModal = () => {
+    setModalOpen(true);
+  };
+
+  const closePostModal = () => {
+    setModalOpen(false);
+    toggleMenu();
+  };
+
   return (
     <View style={styles.buttonsContainer}>
+      <Modal visible={modalOpen} onRequestClose={closePostModal}>
+        <WritePostModal handleClose={closePostModal} />
+      </Modal>
       <View style={styles.submenu}>
         <RoundedIconButton
           icon={'camera'}
@@ -59,6 +75,7 @@ export default function CreatePostButton() {
         />
         <RoundedIconButton
           icon={'edit'}
+          onPress={openPostModal}
           customStyles={[
             styles.hiddenButton,
             {

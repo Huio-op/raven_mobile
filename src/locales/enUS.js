@@ -64,4 +64,8 @@ export default {
       userNotFound: 'Email or password not found, check if the information is correct',
     },
   },
+  post: {
+    post: 'Post',
+    placeholder: 'What are you thinking about?',
+  },
 };

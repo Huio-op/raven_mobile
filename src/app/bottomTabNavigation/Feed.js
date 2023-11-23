@@ -6,7 +6,9 @@ import Post from '../../components/posts/Post';
 
 const posts = [
   {
+    id: 1,
     text: 'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite',
+    likesCount: 15,
     user: {
       name: 'Tim Maia da Sonegação',
       unique_key: 'MaiaOfTim',
@@ -16,7 +18,9 @@ const posts = [
     },
   },
   {
+    id: 2,
     text: 'Video jogos digitais\n' + 'top 10 video jogos digitais\n' + 'top 10: gaucho simulator',
+    likesCount: 25,
     user: {
       name: 'New Araçá City',
       unique_key: 'NovaAraca',
@@ -33,8 +37,8 @@ export default function Feed() {
   const renderHeader = () => {
     return (
       <View style={styles.feedPage}>
-        {posts.map((post) => {
-          return <Post text={post.text} user={post.user} />;
+        {posts.map((post, idx) => {
+          return <Post key={`${post.id}-${idx}`} post={post} />;
         })}
       </View>
     );
