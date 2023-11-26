@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useFormikContext } from 'formik';
 import { useFormCtx } from '/hooks/useFormCtx';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
 import { COLORS } from '/constants';
 import _get from 'lodash/get';
 import Input from '/components/form/Input';

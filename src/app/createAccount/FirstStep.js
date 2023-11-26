@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { COLORS, FONTS, images } from '/constants';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomField from '/components/form/CustomField';
 import { FormWrapper } from '/hooks/useFormCtx';
@@ -18,7 +18,10 @@ import CustomButton, { BUTTON_TYPES } from '/components/CustomButton';
 import IconButton from '/components/IconButton';
 import { router } from 'expo-router';
 import UserApi from '/service/api/UserApi';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import UiMsg from '../../service/UiMsg';
+import DateUtils from '../../utils/DateUtils';
+import InputWithPrefix from '../../components/form/InputWithPrefix';
 
 const CreateAccountSchema = yup.object().shape({
   email: yup.string().default('').email().required(),
@@ -33,10 +36,13 @@ const CreateAccountSchema = yup.object().shape({
       'formik.string.password'
     ),
   passwordConfirm: yup.string().default('').required().min(3),
+  uniqueKey: yup.string().required(),
+  birthDate: yup.date().required().default(new Date()),
 });
 
 export default function FirstStep() {
   const { t } = useTranslation();
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const backToWelcome = () => {
     router.replace('/');
@@ -50,6 +56,10 @@ export default function FirstStep() {
     } catch (e) {
       console.error('Error on function submitCreateScreen()', { ...e });
     }
+  };
+
+  const toggleDatePicker = (show) => {
+    setShowDatePicker(show);
   };
 
   return (
@@ -69,7 +79,17 @@ export default function FirstStep() {
                 onSubmit={submitCreateScreen}
                 validateOnChange={false}
               >
-                {({ submitForm, errors, values, ...props }) => {
+                {({ submitForm, errors, values, setFieldValue, ...props }) => {
+                  const onChangeDatePicker = ({ type }, selectedDate) => {
+                    if (type === 'set') {
+                      setFieldValue('birthDate', new Date(selectedDate));
+                      if (Platform.OS === 'android') {
+                        toggleDatePicker(false);
+                      }
+                    } else {
+                      toggleDatePicker(false);
+                    }
+                  };
                   return (
                     <ScrollView
                       style={styles.scroll}
@@ -90,6 +110,34 @@ export default function FirstStep() {
                           labelStyle={styles.whiteLabel}
                           rootStyle={styles.field}
                           name={'userName'}
+                        />
+
+                        <CustomField
+                          name={'birthDate'}
+                          label={t('form.birthDate')}
+                          labelStyle={styles.whiteLabel}
+                          rootStyle={styles.field}
+                          disabled={true}
+                          onPress={() => toggleDatePicker(true)}
+                          value={DateUtils.formatDate(values.birthDate)}
+                        />
+
+                        {showDatePicker && (
+                          <DateTimePicker
+                            mode={'date'}
+                            display={'spinner'}
+                            value={values.birthDate}
+                            onChange={onChangeDatePicker}
+                          />
+                        )}
+
+                        <CustomField
+                          label={t('form.uniqueKey')}
+                          labelStyle={styles.whiteLabel}
+                          rootStyle={styles.field}
+                          name={'uniqueKey'}
+                          inputComponent={InputWithPrefix}
+                          prefix={'@'}
                         />
                         <CustomField
                           label={t('form.password')}

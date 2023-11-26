@@ -47,9 +47,11 @@ export default {
   },
   form: {
     email: 'E-mail',
-    userName: 'Nome de usuário',
+    userName: 'Nome',
     password: 'Senha',
     passwordConfirm: 'Confirmar senha',
+    uniqueKey: 'Nome de usuário',
+    birthDate: 'Data de nascimento',
   },
   createAccount: {
     fillTheForm: 'Preencha o formulário para ter acesso ao Raven',

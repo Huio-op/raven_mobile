@@ -1,8 +1,14 @@
 import HttpClient from '/service/HttpClient';
 
 export default {
-  async createUser({ email, password, userName }) {
-    const { data } = await HttpClient.post('api/user', { email, password, name: userName });
+  async createUser({ email, password, userName, uniqueKey, birthDate }) {
+    const { data } = await HttpClient.post('/register', {
+      email,
+      password,
+      name: userName,
+      uniqueKey,
+      birthDate,
+    });
     return data;
   },
   async getUser(id) {
