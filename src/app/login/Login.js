@@ -35,7 +35,7 @@ const ERRORS = {
 export default function Login() {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
-  const { doLogin } = useAuth();
+  const { login } = useAuth();
 
   const backToWelcome = () => {
     router.replace('/');
@@ -44,7 +44,7 @@ export default function Login() {
   const loginProcess = async (values) => {
     try {
       const user = await UserApi.login(values);
-      doLogin(user.token);
+      login(user.token);
       setError(null);
       // UiMsg.ok('Usuário criado com sucesso!');
     } catch (e) {
