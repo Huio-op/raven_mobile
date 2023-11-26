@@ -3,8 +3,9 @@ import { COLORS, COMPONENTS, FONTS, images, SIZES } from '/constants';
 import CustomButton, { BUTTON_TYPES } from '/components/CustomButton';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { router, SplashScreen } from 'expo-router';
+import { Redirect, router, SplashScreen } from 'expo-router';
 import { useFonts } from 'expo-font';
+import { useAuth } from '../hooks/useAuth';
 
 export default function Index() {
   const { t } = useTranslation();
@@ -26,6 +27,16 @@ export default function Index() {
       await SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
+
+  const { token, isLoading } = useAuth();
+
+  if (token) {
+    return <Redirect href="/bottomTabNavigation/Feed" />;
+  }
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <SafeAreaView style={styles.container} onLayout={onLayoutRootView}>

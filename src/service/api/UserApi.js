@@ -16,7 +16,8 @@ export default {
     return data;
   },
   async login({ email, password }) {
-    const { data } = await HttpClient.post('api/user/login', { email, password });
+    const { data } = await HttpClient.post('/login', { email, password });
     return data;
   },
+  async me() {},
 };

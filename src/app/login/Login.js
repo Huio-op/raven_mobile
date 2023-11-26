@@ -18,6 +18,8 @@ import { router } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import yup from '/service/yup';
 import UserApi from '/service/api/UserApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../../hooks/useAuth';
 
 const LoginSchema = yup.object().shape({
   email: yup.string().default('').email().required(),
@@ -33,23 +35,24 @@ const ERRORS = {
 export default function Login() {
   const { t } = useTranslation();
   const [error, setError] = useState(null);
+  const { doLogin } = useAuth();
 
   const backToWelcome = () => {
     router.replace('/');
   };
 
-  const doLogin = async (values) => {
+  const loginProcess = async (values) => {
     try {
       const user = await UserApi.login(values);
+      doLogin(user.token);
       setError(null);
-      router.replace('/bottomTabNavigation/Feed');
       // UiMsg.ok('Usuário criado com sucesso!');
     } catch (e) {
-      const status = e.response.status;
+      const status = e.response?.status;
       if (status === 404) {
         setError(ERRORS.NOT_FOUND);
       } else {
-        console.error('Error on function doLogin()', { ...e });
+        console.error('Error on function loginProcess()', { ...e });
       }
     }
   };
@@ -67,7 +70,7 @@ export default function Login() {
             <FormWrapper
               validationSchema={LoginSchema}
               initialValues={LoginSchema.default()}
-              onSubmit={doLogin}
+              onSubmit={loginProcess}
               validateOnChange={false}
             >
               {({ submitForm, errors, values, ...props }) => {
@@ -89,6 +92,7 @@ export default function Login() {
                         rootStyle={styles.field}
                         name={'email'}
                         removeClippedSubviews={false}
+                        autoComplete={'email'}
                       />
                       <CustomField
                         label={t('form.password')}

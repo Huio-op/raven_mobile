@@ -2,9 +2,10 @@ import { Image, ImageBackground, Platform, StyleSheet, View } from 'react-native
 import { COLORS, icons, images } from '/constants';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import CustomBottomTab from '../../components/navigation/CustomBottomTab';
 import CreatePostButton from '../../components/createPost/CreatePostButton';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function BottomTabNavigationLayout() {
   const screenOptions = {
@@ -13,6 +14,16 @@ export default function BottomTabNavigationLayout() {
     tabBarHideOnKeyboard: true,
     tabBarStyle: styles.tabBarStyle,
   };
+
+  const { token, isLoading } = useAuth();
+
+  if (!token) {
+    return <Redirect href="/" />;
+  }
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <>
