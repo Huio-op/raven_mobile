@@ -6,21 +6,21 @@ const AuthContext = createContext({});
 
 export const getCurrentToken = async () => {
   const sessionToken = await AsyncStorage.getItem('LOGIN_TOKEN');
-  return sessionToken;
+  return JSON.parse(sessionToken);
 };
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const login = async (data) => {
-    setToken(data);
-    await AsyncStorage.setItem('LOGIN_TOKEN', data);
+    setUser(data);
+    await AsyncStorage.setItem('LOGIN_TOKEN', JSON.stringify(data));
     router.replace('/bottomTabNavigation/Feed');
   };
 
   const logout = async () => {
-    setToken(null);
+    setUser(null);
     await AsyncStorage.removeItem('LOGIN_TOKEN');
     router.replace('/');
   };
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
       if (!sessionUser) {
         await logout();
       } else {
-        setToken(sessionUser);
+        setUser(JSON.parse(sessionUser));
       }
     }
   };
@@ -49,12 +49,12 @@ export const AuthProvider = ({ children }) => {
 
   const value = useMemo(
     () => ({
-      token,
+      user,
       login,
       logout,
       loading,
     }),
-    [token, loading]
+    [user, loading]
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -19,5 +19,4 @@ export default {
     const { data } = await HttpClient.post('/login', { email, password });
     return data;
   },
-  async me() {},
 };

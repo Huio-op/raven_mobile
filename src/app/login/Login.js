@@ -44,7 +44,7 @@ export default function Login() {
   const loginProcess = async (values) => {
     try {
       const user = await UserApi.login(values);
-      login(user.token);
+      login(user);
       setError(null);
       // UiMsg.ok('Usuário criado com sucesso!');
     } catch (e) {

@@ -6,6 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { FormWrapper } from '../../hooks/useFormCtx';
 import yup from '../../service/yup';
 import { COLORS } from '../../constants';
+import { useAuth } from '../../hooks/useAuth';
+import PostApi from '../../service/api/PostApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
 
 const PostSchema = yup.object().shape({
   content: yup.string().min(1).default(''),
@@ -13,9 +17,16 @@ const PostSchema = yup.object().shape({
 
 export default function WritePostModal({ handleClose }) {
   const { t } = useTranslation();
+  const { user } = useAuth();
 
-  const createPost = async () => {
-    //TODO Criar post no back-end
+  const createPost = async ({ content }) => {
+    try {
+      const post = await PostApi.createPost({ content, userId: user.userId, token: user.token });
+      router.replace('/bottomTabNavigation/Feed');
+      handleClose();
+    } catch (e) {
+      console.error('Error on function createPost()', e);
+    }
   };
 
   return (
@@ -26,7 +37,7 @@ export default function WritePostModal({ handleClose }) {
         onSubmit={createPost}
         validateOnChange={false}
       >
-        {({ submitForm, errors, values, ...props }) => {
+        {({ submitForm, errors, values, setFieldValue, ...props }) => {
           return (
             <>
               <View style={styles.postHeader}>
@@ -36,7 +47,9 @@ export default function WritePostModal({ handleClose }) {
                 <CustomButton
                   title={t('post.post')}
                   customStyles={styles.postButton}
-                  onPress={submitForm}
+                  onPress={async () => {
+                    await submitForm();
+                  }}
                 />
               </View>
               <View style={styles.contentWrapper}>
@@ -45,6 +58,9 @@ export default function WritePostModal({ handleClose }) {
                   placeholder={t('post.placeholder')}
                   multiline={true}
                   autoFocus={true}
+                  onChangeText={(text) => {
+                    setFieldValue('content', text);
+                  }}
                 />
               </View>
             </>
@@ -83,7 +99,6 @@ const styles = StyleSheet.create({
   contentInput: {
     height: 200,
     fontSize: 20,
-    outlineStyle: 'none',
     borderBottomWidth: 2,
     borderColor: COLORS['light-grey'],
   },

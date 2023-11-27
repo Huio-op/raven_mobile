@@ -28,9 +28,9 @@ export default function Index() {
     }
   }, [fontsLoaded, fontError]);
 
-  const { token, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  if (token) {
+  if (user) {
     return <Redirect href="/bottomTabNavigation/Feed" />;
   }
 

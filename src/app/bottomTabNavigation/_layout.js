@@ -15,9 +15,9 @@ export default function BottomTabNavigationLayout() {
     tabBarStyle: styles.tabBarStyle,
   };
 
-  const { token, isLoading } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  if (!token) {
+  if (!user) {
     return <Redirect href="/" />;
   }
 
@@ -73,7 +73,6 @@ export default function BottomTabNavigationLayout() {
             },
           }}
         />
-
         <Tabs.Screen
           name={'Notifications'}
           options={{
