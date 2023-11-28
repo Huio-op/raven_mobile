@@ -3,7 +3,7 @@ import { COLORS, FONTS, images } from '../../constants';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 
-export default function Post({ post = {} }) {
+export default function Post({ post = {}, withInteractions = true }) {
   const [liked, setLiked] = useState(false);
 
   const toggleLike = () => {
@@ -30,19 +30,21 @@ export default function Post({ post = {} }) {
         <Feather name={'more-vertical'} style={styles.moreButton} />
       </View>
       <Text style={styles.text}>{content}</Text>
-      <View style={styles.interactions}>
-        <View style={styles.leftInteractions}>
-          <InteractionCounter icon={'message-square'} />
-          <InteractionCounter icon={'repeat'} />
-          <InteractionCounter
-            icon={'heart'}
-            count={likeCounter}
-            onPress={toggleLike}
-            interacted={liked}
-          />
+      {withInteractions && (
+        <View style={styles.interactions}>
+          <View style={styles.leftInteractions}>
+            <InteractionCounter icon={'message-square'} />
+            <InteractionCounter icon={'repeat'} />
+            <InteractionCounter
+              icon={'heart'}
+              count={likeCounter}
+              onPress={toggleLike}
+              interacted={liked}
+            />
+          </View>
+          <Feather style={styles.icon} name={'share'} />
         </View>
-        <Feather style={styles.icon} name={'share'} />
-      </View>
+      )}
     </View>
   );
 }
@@ -97,6 +99,7 @@ const styles = StyleSheet.create({
     color: '#000',
     fontSize: 13,
     fontWeight: 'normal',
+    paddingBottom: 15,
   },
   interactionCounter: {
     alignItems: 'center',
