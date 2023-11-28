@@ -23,6 +23,7 @@ export default function WelcomeScreenLayout() {
         />
         <Stack.Screen name={'createAccount'} options={{ headerShown: false, animation: 'none' }} />
         <Stack.Screen name={'login'} options={{ headerShown: false, animation: 'none' }} />
+        <Stack.Screen name={'monitoring'} options={{ headerShown: false, animation: 'none' }} />
       </Stack>
     </AuthProvider>
   );

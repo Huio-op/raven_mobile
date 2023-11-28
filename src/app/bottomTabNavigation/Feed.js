@@ -1,17 +1,20 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { FONTS, COMPONENTS } from '/constants';
 import { useTranslation } from 'react-i18next';
 import Post from '../../components/posts/Post';
+import PostApi from '../../service/api/PostApi';
+import { useAuth } from '../../hooks/useAuth';
 
-const posts = [
+const POSTS = [
   {
     id: 1,
-    text: 'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite',
+    content:
+      'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite',
     likesCount: 15,
-    user: {
+    owner: {
       name: 'Tim Maia da Sonegação',
-      unique_key: 'MaiaOfTim',
+      uniqueKey: 'MaiaOfTim',
       userProfile: {
         profile_picture_id: 'user1.png',
       },
@@ -19,11 +22,12 @@ const posts = [
   },
   {
     id: 2,
-    text: 'Video jogos digitais\n' + 'top 10 video jogos digitais\n' + 'top 10: gaucho simulator',
+    content:
+      'Video jogos digitais\n' + 'top 10 video jogos digitais\n' + 'top 10: gaucho simulator',
     likesCount: 25,
-    user: {
+    owner: {
       name: 'New Araçá City',
-      unique_key: 'NovaAraca',
+      uniqueKey: 'NovaAraca',
       userProfile: {
         profile_picture_id: 'user2.png',
       },
@@ -33,14 +37,33 @@ const posts = [
 
 export default function Feed() {
   const { t } = useTranslation();
+  const { user } = useAuth();
+  const [posts, setPosts] = useState([]);
+
+  const fetchPosts = async () => {
+    try {
+      let fetchedPosts = await PostApi.fetchAll({ userId: user.userId, token: user.token });
+      fetchedPosts = fetchedPosts.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      fetchedPosts.unshift(...POSTS);
+      setPosts(fetchedPosts);
+    } catch (e) {
+      console.error('Error on function fetchPosts()', e);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const renderHeader = () => {
     return (
-      <View style={styles.feedPage}>
+      <ScrollView contentContainerStyle={styles.feedPage}>
         {posts.map((post, idx) => {
           return <Post key={`${post.id}-${idx}`} post={post} />;
         })}
-      </View>
+      </ScrollView>
     );
   };
 
@@ -67,6 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 10,
     gap: 10,
+    marginBottom: 50,
   },
   headerWrapper: {
     flexDirection: 'row',

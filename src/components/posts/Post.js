@@ -1,6 +1,5 @@
 import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 import { COLORS, FONTS, images } from '../../constants';
-import IconButton from '../IconButton';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 
@@ -11,9 +10,9 @@ export default function Post({ post = {} }) {
     setLiked(!liked);
   };
 
-  const text = post.text;
-  const user = post.user;
-  const likeCounter = post.likesCount + (liked ? 1 : 0);
+  const content = post.content;
+  const owner = post.owner;
+  const likeCounter = post.likesCount + (liked ? 1 : 0) || post.id * 3 + (liked ? 1 : 0);
 
   return (
     <View style={styles.Post}>
@@ -22,15 +21,15 @@ export default function Post({ post = {} }) {
           <Image style={styles.userPfp} source={images.user1} />
         </View>
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{user.name}</Text>
+          <Text style={styles.userName}>{owner.name}</Text>
           <View style={styles.atWrapper}>
             <Text style={styles.userAt}>@</Text>
-            <Text style={styles.userAt}>{user.unique_key}</Text>
+            <Text style={styles.userAt}>{owner.uniqueKey}</Text>
           </View>
         </View>
         <Feather name={'more-vertical'} style={styles.moreButton} />
       </View>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={styles.text}>{content}</Text>
       <View style={styles.interactions}>
         <View style={styles.leftInteractions}>
           <InteractionCounter icon={'message-square'} />

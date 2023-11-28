@@ -34,7 +34,9 @@ export const AuthProvider = ({ children }) => {
       if (!sessionUser) {
         await logout();
       } else {
-        setUser(JSON.parse(sessionUser));
+        try {
+          setUser(JSON.parse(sessionUser));
+        } catch (e) {}
       }
     }
   };
