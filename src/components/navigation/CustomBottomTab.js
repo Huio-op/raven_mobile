@@ -1,4 +1,4 @@
-import { Image, Pressable, View, StyleSheet } from 'react-native';
+import { Image, Pressable, View, StyleSheet, Text } from 'react-native';
 import { images } from '../../constants';
 
 export default function CustomBottomTab({

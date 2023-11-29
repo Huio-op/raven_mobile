@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Platform, StyleSheet, View } from 'react-native';
+import { Image, ImageBackground, Platform, StyleSheet, View, Text } from 'react-native';
 import { COLORS, icons, images } from '/constants';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -44,13 +44,13 @@ export default function BottomTabNavigationLayout() {
           }}
         />
         <Tabs.Screen
-          name={'Groups'}
+          name={'Search'}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
                 <View style={styles.viewCenter}>
                   <Image
-                    source={icons.groups}
+                    source={icons.search}
                     resizeMode={'contain'}
                     style={styles.bottomTabIcons}
                   />

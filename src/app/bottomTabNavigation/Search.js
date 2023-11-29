@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { COLORS, FONTS } from '../../constants';
 import React from 'react';
 
-export default function Groups() {
+export default function Search() {
   return (
     <View style={styles.container}>
       <Text style={styles.tabText}>Em Breve!</Text>

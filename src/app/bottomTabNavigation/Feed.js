@@ -6,35 +6,6 @@ import Post from '../../components/posts/Post';
 import PostApi from '../../service/api/PostApi';
 import { useAuth } from '../../hooks/useAuth';
 
-// const POSTS = [
-//   {
-//     id: 1,
-//     content:
-//       'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite',
-//     likesCount: 15,
-//     owner: {
-//       name: 'Tim Maia da Sonegação',
-//       uniqueKey: 'MaiaOfTim',
-//       userProfile: {
-//         profile_picture_id: 'user1.png',
-//       },
-//     },
-//   },
-//   {
-//     id: 2,
-//     content:
-//       'Video jogos digitais\n' + 'top 10 video jogos digitais\n' + 'top 10: gaucho simulator',
-//     likesCount: 25,
-//     owner: {
-//       name: 'New Araçá City',
-//       uniqueKey: 'NovaAraca',
-//       userProfile: {
-//         profile_picture_id: 'user2.png',
-//       },
-//     },
-//   },
-// ];
-
 export default function Feed() {
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -77,7 +48,6 @@ const styles = StyleSheet.create({
   },
   view: {
     flex: 1,
-    paddingHorizontal: 22,
   },
   feedPage: {
     flexDirection: 'column',
@@ -86,6 +56,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     gap: 10,
     marginBottom: 50,
+    paddingHorizontal: 22,
   },
   headerWrapper: {
     flexDirection: 'row',
