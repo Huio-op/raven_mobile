@@ -1,9 +1,11 @@
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import Post from '../../components/posts/Post';
 import React from 'react';
 import { COLORS, COMPONENTS, FONTS } from '../../constants';
 import IconButton from '../../components/IconButton';
 import FeatherButton from '../../components/FeatherButton';
+import PostApi from '../../service/api/PostApi';
+import { useAuth } from '../../hooks/useAuth';
 
 const POSTS = [
   {
@@ -11,6 +13,7 @@ const POSTS = [
     content:
       'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite',
     likesCount: 15,
+    reportCount: 5,
     owner: {
       name: 'Tim Maia da Sonegação',
       uniqueKey: 'MaiaOfTim',
@@ -24,6 +27,7 @@ const POSTS = [
     content:
       'Video jogos digitais\n' + 'top 10 video jogos digitais\n' + 'top 10: gaucho simulator',
     likesCount: 25,
+    reportCount: 7,
     owner: {
       name: 'New Araçá City',
       uniqueKey: 'NovaAraca',
@@ -35,7 +39,15 @@ const POSTS = [
 ];
 
 export default function MonitoringDash() {
-  const deletePost = async (postId) => {};
+  const { user } = useAuth();
+
+  const deletePost = async (postId) => {
+    try {
+      PostApi.delete({ postId, userId: user.userId, token: user.token });
+    } catch (e) {
+      console.error('Error on funtion deletePost()', e);
+    }
+  };
 
   const acceptPost = async (postId) => {};
 
@@ -44,7 +56,13 @@ export default function MonitoringDash() {
       {POSTS.map((post, idx) => {
         return (
           <View style={styles.postWrapper} key={idx}>
-            <Post key={`${post.id}-${idx}`} post={post} withInteractions={false} />
+            <View style={styles.postContainer}>
+              <Post key={`${post.id}-${idx}`} post={post} withInteractions={false} />
+            </View>
+            <View style={styles.reportCount}>
+              <Text style={{ fontWeight: 'bold' }}>Vezes reportado:</Text>
+              <Text>{post.reportCount}</Text>
+            </View>
             <View style={styles.buttonsWrapper}>
               <FeatherButton
                 icon={'delete'}
@@ -114,17 +132,30 @@ const styles = StyleSheet.create({
   },
   postWrapper: {
     flex: 1,
-    width: '80%',
     paddingHorizontal: 20,
     flexDirection: 'row',
+    gap: 20,
   },
   buttonsWrapper: {
     width: 100,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 5,
   },
   deleteButton: {
     backgroundColor: COLORS.red,
   },
   checkButton: {
     backgroundColor: '#008000',
+  },
+  reportCount: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
+  },
+  postContainer: {
+    width: 700,
   },
 });

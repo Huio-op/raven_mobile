@@ -31,6 +31,7 @@ export default function BottomTabNavigationLayout() {
         <Tabs.Screen
           name={'Feed'}
           options={{
+            unmountOnBlur: true,
             headerShown: false,
             tabBarIcon: ({ focused }) => {
               return (

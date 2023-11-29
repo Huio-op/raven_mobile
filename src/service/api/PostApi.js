@@ -18,4 +18,10 @@ export default {
     });
     return data;
   },
+  async delete({ postId, userId, token }) {
+    const { data } = await HttpClient.delete(`/api/post/${postId}`, {
+      headers: { token: `${token}/${userId}` },
+    });
+    return data;
+  },
 };
