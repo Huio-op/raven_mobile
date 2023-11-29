@@ -6,34 +6,34 @@ import Post from '../../components/posts/Post';
 import PostApi from '../../service/api/PostApi';
 import { useAuth } from '../../hooks/useAuth';
 
-const POSTS = [
-  {
-    id: 1,
-    content:
-      'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite',
-    likesCount: 15,
-    owner: {
-      name: 'Tim Maia da Sonegação',
-      uniqueKey: 'MaiaOfTim',
-      userProfile: {
-        profile_picture_id: 'user1.png',
-      },
-    },
-  },
-  {
-    id: 2,
-    content:
-      'Video jogos digitais\n' + 'top 10 video jogos digitais\n' + 'top 10: gaucho simulator',
-    likesCount: 25,
-    owner: {
-      name: 'New Araçá City',
-      uniqueKey: 'NovaAraca',
-      userProfile: {
-        profile_picture_id: 'user2.png',
-      },
-    },
-  },
-];
+// const POSTS = [
+//   {
+//     id: 1,
+//     content:
+//       'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite',
+//     likesCount: 15,
+//     owner: {
+//       name: 'Tim Maia da Sonegação',
+//       uniqueKey: 'MaiaOfTim',
+//       userProfile: {
+//         profile_picture_id: 'user1.png',
+//       },
+//     },
+//   },
+//   {
+//     id: 2,
+//     content:
+//       'Video jogos digitais\n' + 'top 10 video jogos digitais\n' + 'top 10: gaucho simulator',
+//     likesCount: 25,
+//     owner: {
+//       name: 'New Araçá City',
+//       uniqueKey: 'NovaAraca',
+//       userProfile: {
+//         profile_picture_id: 'user2.png',
+//       },
+//     },
+//   },
+// ];
 
 export default function Feed() {
   const { t } = useTranslation();
@@ -46,7 +46,6 @@ export default function Feed() {
       fetchedPosts = fetchedPosts.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
-      fetchedPosts.unshift(...POSTS);
       setPosts(fetchedPosts);
     } catch (e) {
       console.error('Error on function fetchPosts()', e);
@@ -57,19 +56,15 @@ export default function Feed() {
     fetchPosts();
   }, []);
 
-  const renderHeader = () => {
-    return (
-      <ScrollView contentContainerStyle={styles.feedPage}>
-        {posts.map((post, idx) => {
-          return <Post key={`${post.id}-${idx}`} post={post} />;
-        })}
-      </ScrollView>
-    );
-  };
-
   return (
     <SafeAreaView style={styles.pageWrapper}>
-      <View style={styles.view}>{renderHeader()}</View>
+      <View style={styles.view}>
+        <ScrollView contentContainerStyle={styles.feedPage}>
+          {posts.map((post, idx) => {
+            return <Post key={`${post.id}-${idx}`} post={post} />;
+          })}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }

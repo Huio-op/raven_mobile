@@ -29,8 +29,6 @@ export default function WritePostModal({ handleClose }) {
     }
   };
 
-  console.log('recarrecoucousoaucoasucsouui');
-
   return (
     <SafeAreaView style={styles.container}>
       <FormWrapper

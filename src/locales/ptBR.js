@@ -68,5 +68,9 @@ export default {
   post: {
     post: 'Postar',
     placeholder: 'O que está pensando?',
+    more: {
+      report: 'Reportar post',
+      reportSuccess: 'Post reportado e será avaliado',
+    },
   },
 };

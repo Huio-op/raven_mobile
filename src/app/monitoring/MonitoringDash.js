@@ -1,68 +1,58 @@
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
 import Post from '../../components/posts/Post';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { COLORS, COMPONENTS, FONTS } from '../../constants';
-import IconButton from '../../components/IconButton';
 import FeatherButton from '../../components/FeatherButton';
 import PostApi from '../../service/api/PostApi';
 import { useAuth } from '../../hooks/useAuth';
-
-const POSTS = [
-  {
-    id: 1,
-    content:
-      'Mano porque ninguém me disse que sonegar imposto é tão bom só penso em retirar dinheiro do governo todo dia toda noite',
-    likesCount: 15,
-    reportCount: 5,
-    owner: {
-      name: 'Tim Maia da Sonegação',
-      uniqueKey: 'MaiaOfTim',
-      userProfile: {
-        profile_picture_id: 'user1.png',
-      },
-    },
-  },
-  {
-    id: 2,
-    content:
-      'Video jogos digitais\n' + 'top 10 video jogos digitais\n' + 'top 10: gaucho simulator',
-    likesCount: 25,
-    reportCount: 7,
-    owner: {
-      name: 'New Araçá City',
-      uniqueKey: 'NovaAraca',
-      userProfile: {
-        profile_picture_id: 'user2.png',
-      },
-    },
-  },
-];
+import PostReportApi from '../../service/api/PostReportApi';
 
 export default function MonitoringDash() {
-  const { user } = useAuth();
+  const [reports, setReports] = useState([]);
 
   const deletePost = async (postId) => {
     try {
-      PostApi.delete({ postId, userId: user.userId, token: user.token });
+      PostApi.delete({ postId, userId: 1, token: 'monitoring_token' });
     } catch (e) {
       console.error('Error on funtion deletePost()', e);
     }
   };
 
+  const fetchReported = async () => {
+    try {
+      const fetchedReports = await PostReportApi.fetchAll({
+        userId: 1,
+        token: 'monitoring_token',
+      });
+      setReports(fetchedReports);
+    } catch (e) {
+      console.error('Error on function fetchReported()', e);
+    }
+  };
+
+  useEffect(() => {
+    fetchReported();
+  }, []);
+
   const acceptPost = async (postId) => {};
 
   return (
     <ScrollView contentContainerStyle={styles.feedPage}>
-      {POSTS.map((post, idx) => {
+      {reports.map((report, idx) => {
+        const post = report.post;
         return (
           <View style={styles.postWrapper} key={idx}>
             <View style={styles.postContainer}>
               <Post key={`${post.id}-${idx}`} post={post} withInteractions={false} />
             </View>
-            <View style={styles.reportCount}>
-              <Text style={{ fontWeight: 'bold' }}>Vezes reportado:</Text>
-              <Text>{post.reportCount}</Text>
+            <View style={styles.reportUser}>
+              <View style={styles.reportCount}>
+                <Text style={{ fontWeight: 'bold' }}>Reportado por:</Text>
+                <Text>{report.user.uniqueKey}</Text>
+              </View>
+              <Text>{report.user.email}</Text>
             </View>
+
             <View style={styles.buttonsWrapper}>
               <FeatherButton
                 icon={'delete'}
@@ -148,6 +138,11 @@ const styles = StyleSheet.create({
   },
   checkButton: {
     backgroundColor: '#008000',
+  },
+  reportUser: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
   },
   reportCount: {
     flexDirection: 'row',

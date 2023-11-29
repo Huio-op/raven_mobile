@@ -2,13 +2,38 @@ import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
 import { COLORS, FONTS, images } from '../../constants';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
+import PopupMenu from './PopupMenu';
+import PostReportApi from '../../service/api/PostReportApi';
+import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 
 export default function Post({ post = {}, withInteractions = true }) {
+  const { t } = useTranslation();
+  const { user } = useAuth();
   const [liked, setLiked] = useState(false);
 
   const toggleLike = () => {
     setLiked(!liked);
   };
+
+  const moreMenuOpts = [
+    {
+      title: 'post.more.report',
+      icon: 'alert-triangle',
+      action: async () => {
+        try {
+          await PostReportApi.reportPost({
+            postId: post.id,
+            userId: user.userId,
+            token: user.token,
+          });
+          alert(t('post.more.reportSuccess'));
+        } catch (e) {
+          console.error('Error on Report Action', e);
+        }
+      },
+    },
+  ];
 
   const content = post.content;
   const owner = post.owner;
@@ -27,7 +52,8 @@ export default function Post({ post = {}, withInteractions = true }) {
             <Text style={styles.userAt}>{owner.uniqueKey}</Text>
           </View>
         </View>
-        <Feather name={'more-vertical'} style={styles.moreButton} />
+        {/*<Feather name={'more-vertical'} style={styles.moreButton} />*/}
+        <PopupMenu options={moreMenuOpts} />
       </View>
       <Text style={styles.text}>{content}</Text>
       {withInteractions && (
