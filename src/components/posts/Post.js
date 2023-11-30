@@ -6,14 +6,32 @@ import PopupMenu from './PopupMenu';
 import PostReportApi from '../../service/api/PostReportApi';
 import { useAuth } from '../../hooks/useAuth';
 import { useTranslation } from 'react-i18next';
+import PostApi from '../../service/api/PostApi';
 
 export default function Post({ post = {}, withInteractions = true }) {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(post.likes);
 
-  const toggleLike = () => {
-    setLiked(!liked);
+  const toggleLike = async () => {
+    try {
+      const res = await PostApi.likePost({
+        postId: post.id,
+        userId: user.userId,
+        token: user.token,
+      });
+      if (res === 'Deleted') {
+        likes.splice(
+          likes.indexOf(likes.find((l) => l.postId === post.id && l.userId === user.userId)),
+          1
+        );
+      } else {
+        likes.push(res);
+      }
+      setLikes([...likes]);
+    } catch (e) {
+      console.error('Error on function toggleLike()', e);
+    }
   };
 
   const moreMenuOpts = [
@@ -37,7 +55,7 @@ export default function Post({ post = {}, withInteractions = true }) {
 
   const content = post.content;
   const owner = post.owner;
-  const likeCounter = post.likesCount + (liked ? 1 : 0) || post.id * 3 + (liked ? 1 : 0);
+  const liked = likes.find((like) => like.userId === user.userId);
 
   return (
     <View style={styles.Post}>
@@ -63,7 +81,7 @@ export default function Post({ post = {}, withInteractions = true }) {
             <InteractionCounter icon={'repeat'} />
             <InteractionCounter
               icon={'heart'}
-              count={likeCounter}
+              count={likes.length}
               onPress={toggleLike}
               interacted={liked}
             />

@@ -24,4 +24,16 @@ export default {
     });
     return data;
   },
+  async likePost({ postId, userId, token }) {
+    const { data } = await HttpClient.post(
+      `/api/post/${postId}/like`,
+      {
+        userId: userId,
+      },
+      {
+        headers: { token: `${token}/${userId}` },
+      }
+    );
+    return data;
+  },
 };
