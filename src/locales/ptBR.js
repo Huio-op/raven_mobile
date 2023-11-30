@@ -42,6 +42,12 @@ export default {
     create: 'Criar conta',
     login: 'Fazer login',
   },
+  mainHeader: {
+    Feed: 'Página inicial',
+    Search: 'Pesquisar',
+    Notifications: 'Notificações',
+    Profile: 'Perfil',
+  },
   feed: {
     home: 'Página inicial',
   },

@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { COLORS, FONTS } from '../../constants';
 import React from 'react';
+import SearchField from '../../components/form/SearchField';
 
 export default function Search() {
   return (
     <View style={styles.container}>
-      <Text style={styles.tabText}>Em Breve!</Text>
+      <SearchField />
     </View>
   );
 }
@@ -14,9 +15,8 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: COLORS.white,
+    paddingHorizontal: 20,
   },
   tabText: {
     ...FONTS.h2,

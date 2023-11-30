@@ -18,7 +18,7 @@ export default function WelcomeScreenLayout() {
           options={{
             headerTitleAlign: 'center',
             headerShadowVisible: false,
-            headerTitle: (props) => <CustomTitle title={t('feed.home')} />,
+            headerTitle: (props) => <CustomTitle />,
           }}
         />
         <Stack.Screen name={'createAccount'} options={{ headerShown: false, animation: 'none' }} />

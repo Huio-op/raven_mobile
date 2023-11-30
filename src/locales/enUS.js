@@ -43,6 +43,12 @@ export default {
     create: 'Create account',
     login: 'Sign in',
   },
+  mainHeader: {
+    Feed: 'Home',
+    Search: 'Search',
+    Notifications: 'Notifications',
+    Profile: 'Profile',
+  },
   feed: {
     home: 'Home screen',
   },
