@@ -47,6 +47,7 @@ export default {
     Search: 'Pesquisar',
     Notifications: 'Notificações',
     Profile: 'Perfil',
+    FullPost: 'Post',
   },
   feed: {
     home: 'Página inicial',

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     gap: 10,
     marginBottom: 50,
-    paddingHorizontal: 22,
+    paddingHorizontal: 10,
   },
   headerWrapper: {
     flexDirection: 'row',

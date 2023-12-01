@@ -10,19 +10,21 @@ export default function CustomBottomTab({
     <View style={{ backgroundColor: 'transparent', height: 25 }}>
       <Image source={images.background} style={styles.bottomTabBg}></Image>
       <View style={styles.tabBarContainer}>
-        {routes.map((route, index) => {
-          const active = index === activeIndex;
-          const { options } = descriptors[route.key];
+        {routes
+          .filter((route) => route.name != 'FullPost')
+          .map((route, index) => {
+            const active = index === activeIndex;
+            const { options } = descriptors[route.key];
 
-          return (
-            <TabComponent
-              key={route.key}
-              active={active}
-              options={options}
-              onPress={() => navigation.navigate(route.name)}
-            />
-          );
-        })}
+            return (
+              <TabComponent
+                key={route.key}
+                active={active}
+                options={options}
+                onPress={() => navigation.navigate(route.name)}
+              />
+            );
+          })}
       </View>
     </View>
   );

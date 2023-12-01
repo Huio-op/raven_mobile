@@ -12,6 +12,12 @@ export default {
     );
     return data;
   },
+  async fetchPostInfo({ postId, token, userId }) {
+    const { data } = await HttpClient.get(`/api/post/${postId}`, {
+      headers: { token: `${token}/${userId}` },
+    });
+    return data;
+  },
   async fetchAll({ userId, token }) {
     const { data } = await HttpClient.get('/api/post', {
       headers: { token: `${token}/${userId}` },

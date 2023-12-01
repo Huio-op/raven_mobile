@@ -91,7 +91,6 @@ export default function BottomTabNavigationLayout() {
             },
           }}
         />
-
         <Tabs.Screen
           name={'Profile'}
           options={{
@@ -107,6 +106,12 @@ export default function BottomTabNavigationLayout() {
                 </View>
               );
             },
+          }}
+        />
+        <Tabs.Screen
+          name={'FullPost'}
+          options={{
+            href: null,
           }}
         />
       </Tabs>

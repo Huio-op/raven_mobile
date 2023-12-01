@@ -1,4 +1,4 @@
-import { Image, Text, View, StyleSheet, Pressable } from 'react-native';
+import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, images } from '../../constants';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -7,6 +7,7 @@ import PostReportApi from '../../service/api/PostReportApi';
 import { useAuth } from '../../hooks/useAuth';
 import { useTranslation } from 'react-i18next';
 import PostApi from '../../service/api/PostApi';
+import { router } from 'expo-router';
 
 export default function Post({ post = {}, withInteractions = true }) {
   const { t } = useTranslation();
@@ -53,6 +54,10 @@ export default function Post({ post = {}, withInteractions = true }) {
     },
   ];
 
+  const openPostPage = async () => {
+    router.replace(`/bottomTabNavigation/FullPost?postId=${post.id}`);
+  };
+
   const content = post.content;
   const owner = post.owner;
   const liked = likes.find((like) => like.userId === user.userId);
@@ -73,7 +78,9 @@ export default function Post({ post = {}, withInteractions = true }) {
         {/*<Feather name={'more-vertical'} style={styles.moreButton} />*/}
         <PopupMenu options={moreMenuOpts} />
       </View>
-      <Text style={styles.text}>{content}</Text>
+      <TouchableOpacity onPress={openPostPage}>
+        <Text style={styles.text}>{content}</Text>
+      </TouchableOpacity>
       {withInteractions && (
         <View style={styles.interactions}>
           <View style={styles.leftInteractions}>

@@ -48,6 +48,7 @@ export default {
     Search: 'Search',
     Notifications: 'Notifications',
     Profile: 'Profile',
+    FullPost: 'Post',
   },
   feed: {
     home: 'Home screen',
