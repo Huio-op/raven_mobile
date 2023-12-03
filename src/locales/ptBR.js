@@ -80,4 +80,9 @@ export default {
       reportSuccess: 'Post reportado e será avaliado',
     },
   },
+  profile: {
+    following: 'Seguindo',
+    followers: 'Seguidores',
+    follow: 'Seguir',
+  },
 };

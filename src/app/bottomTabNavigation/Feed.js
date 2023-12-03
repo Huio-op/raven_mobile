@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: 10,
     gap: 10,
-    marginBottom: 50,
+    marginBottom: 70,
     paddingHorizontal: 10,
   },
   headerWrapper: {

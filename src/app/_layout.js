@@ -19,6 +19,7 @@ export default function WelcomeScreenLayout() {
             headerTitleAlign: 'center',
             headerShadowVisible: false,
             headerTitle: (props) => <CustomTitle />,
+            headerStyle: { height: 40 },
           }}
         />
         <Stack.Screen name={'createAccount'} options={{ headerShown: false, animation: 'none' }} />

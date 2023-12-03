@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    ...FONTS.h1,
+    ...FONTS.h2,
     marginRight: 4,
   },
   backWrapper: {

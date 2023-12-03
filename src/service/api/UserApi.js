@@ -11,8 +11,10 @@ export default {
     });
     return data;
   },
-  async getUser(id) {
-    const { data } = await HttpClient.post(`api/user/${id}`);
+  async getUser({ userId, token }) {
+    const { data } = await HttpClient.get(`api/user/${userId}`, {
+      headers: { token: `${token}/${userId}` },
+    });
     return data;
   },
   async login({ email, password }) {

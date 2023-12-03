@@ -81,4 +81,8 @@ export default {
       reportSuccess: 'Post reported and will be analised',
     },
   },
+  profile: {
+    following: 'Following',
+    followers: 'Followers',
+  },
 };
