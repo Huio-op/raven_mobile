@@ -18,6 +18,8 @@ import PostApi from '../../service/api/PostApi';
 import Post from '../../components/posts/Post';
 import { router, useLocalSearchParams } from 'expo-router';
 import IconButton from '../../components/IconButton';
+import PopupMenu from '../../components/posts/PopupMenu';
+import PostReportApi from '../../service/api/PostReportApi';
 
 export default function Profile() {
   const { t } = useTranslation();
@@ -74,6 +76,16 @@ export default function Profile() {
     router.replace(`/bottomTabNavigation/Feed`);
   };
 
+  const profileOpts = [
+    {
+      title: t('profile.logout'),
+      icon: 'log-out',
+      action: async () => {
+        logout();
+      },
+    },
+  ];
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.banner}>
@@ -121,9 +133,11 @@ export default function Profile() {
             />
           )}
 
-          <TouchableOpacity style={styles.moreWrapper}>
-            <Feather size={26} name={'more-horizontal'} />
-          </TouchableOpacity>
+          <PopupMenu
+            options={profileOpts}
+            icon={'more-horizontal'}
+            customStyles={styles.moreWrapper}
+          />
         </View>
       </View>
       <View style={styles.postsWrapper}>
@@ -131,9 +145,6 @@ export default function Profile() {
           return <Post key={`${post.id}-${idx}`} post={post} />;
         })}
       </View>
-      {/*<View style={styles.exitButtonContainer}>*/}
-      {/*  <CustomButton title={'Sair'} customStyles={styles.logoutButton} onPress={logout} />*/}
-      {/*</View>*/}
     </ScrollView>
   );
 }

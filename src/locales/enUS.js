@@ -86,5 +86,6 @@ export default {
     followers: 'Followers',
     follow: 'Follow',
     edit: 'Edit',
+    logout: 'Leave',
   },
 };
