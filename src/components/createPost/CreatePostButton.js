@@ -12,8 +12,12 @@ import {
 import RoundedIconButton from './RoundedIconButton';
 import { useMemo, useState } from 'react';
 import WritePostModal from '../posts/WritePostModal';
+import { useGlobalSearchParams, useLocalSearchParams, usePathname } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 export default function CreatePostButton() {
+  const { postId } = useGlobalSearchParams();
+
   const [open, setOpen] = useState(false);
   const [animation] = useState(new Animated.Value(0));
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,7 +60,7 @@ export default function CreatePostButton() {
   return (
     <View style={styles.buttonsContainer}>
       <Modal visible={modalOpen} onRequestClose={closePostModal}>
-        <WritePostModal handleClose={closePostModal} />
+        <WritePostModal handleClose={closePostModal} postId={postId} />
       </Modal>
       <View style={styles.submenu}>
         <RoundedIconButton
@@ -90,8 +94,8 @@ export default function CreatePostButton() {
         />
       </View>
       <RoundedIconButton
-        icon={'plus'}
-        onPress={toggleMenu}
+        icon={postId ? 'message-circle' : 'plus'}
+        onPress={postId ? openPostModal : toggleMenu}
         customInnerStyle={{
           transform: [
             {

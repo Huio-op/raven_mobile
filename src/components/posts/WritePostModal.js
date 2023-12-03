@@ -10,19 +10,30 @@ import { useAuth } from '../../hooks/useAuth';
 import PostApi from '../../service/api/PostApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import CommentApi from '../../service/api/CommentApi';
 
 const PostSchema = yup.object().shape({
   content: yup.string().min(1).default(''),
 });
 
-export default function WritePostModal({ handleClose }) {
+export default function WritePostModal({ handleClose, postId = null }) {
   const { t } = useTranslation();
   const { user } = useAuth();
 
   const createPost = async ({ content }) => {
     try {
-      const post = await PostApi.createPost({ content, userId: user.userId, token: user.token });
-      router.replace('/bottomTabNavigation/Feed');
+      if (postId) {
+        const comment = await CommentApi.createComment({
+          content,
+          userId: user.userId,
+          token: user.token,
+          originalPostId: postId,
+        });
+        router.replace(`/bottomTabNavigation/FullPost?postId=${postId}`);
+      } else {
+        const post = await PostApi.createPost({ content, userId: user.userId, token: user.token });
+        router.replace('/bottomTabNavigation/Feed');
+      }
       handleClose();
     } catch (e) {
       console.error('Error on function createPost()', e);
