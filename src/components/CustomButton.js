@@ -33,6 +33,14 @@ const styles = StyleSheet.create({
   secondaryButton: {
     backgroundColor: COLORS['light-grey'],
   },
+  whiteButton: {
+    backgroundColor: COLORS.white,
+    borderColor: COLORS['light-grey'],
+    borderWidth: 1,
+  },
+  whiteButtonText: {
+    color: COLORS.black,
+  },
   primaryButtonText: {
     color: '#fff',
   },
@@ -49,6 +57,10 @@ export const BUTTON_TYPES = {
   SECONDARY: {
     style: styles.secondaryButton,
     textStyle: styles.secondaryButtonText,
+  },
+  WHITE: {
+    style: styles.whiteButton,
+    textStyle: styles.whiteButtonText,
   },
 };
 

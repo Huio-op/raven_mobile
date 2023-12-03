@@ -21,7 +21,7 @@ export default function CustomTitle() {
     <View style={[styles.titleWrapper]}>
       {canGoBack && (
         <View style={styles.backWrapper}>
-          <IconButton onPress={goBack} />
+          <IconButton customStyles={{ height: 40, width: 40 }} onPress={goBack} />
         </View>
       )}
       <Text style={styles.headerTitle}>{t(`mainHeader.${route}`)}</Text>
@@ -41,8 +41,9 @@ const styles = StyleSheet.create({
   },
   backWrapper: {
     left: -132,
-    height: 50,
-    width: 50,
+    top: 0,
+    height: 40,
+    width: 40,
     position: 'absolute',
   },
 });

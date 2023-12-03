@@ -94,6 +94,7 @@ export default function BottomTabNavigationLayout() {
         <Tabs.Screen
           name={'Profile'}
           options={{
+            unmountOnBlur: true,
             tabBarIcon: ({ focused }) => {
               return (
                 <View style={styles.viewCenter}>

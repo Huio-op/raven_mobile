@@ -58,6 +58,10 @@ export default function Post({ post = {}, withInteractions = true }) {
     router.replace(`/bottomTabNavigation/FullPost?postId=${post.id}`);
   };
 
+  const openUserProfile = async () => {
+    router.replace(`/bottomTabNavigation/Profile?userId=${post.owner.id}`);
+  };
+
   const content = post.content;
   const owner = post.owner;
   const liked = likes.find((like) => like.userId === user.userId);
@@ -65,17 +69,16 @@ export default function Post({ post = {}, withInteractions = true }) {
   return (
     <View style={styles.Post}>
       <View style={styles.header}>
-        <View style={styles.userPfpWrapper}>
+        <TouchableOpacity style={styles.userPfpWrapper} onPress={openUserProfile}>
           <Image style={styles.userPfp} source={images.user1} />
-        </View>
-        <View style={styles.userInfo}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.userInfo} onPress={openUserProfile}>
           <Text style={styles.userName}>{owner.name}</Text>
           <View style={styles.atWrapper}>
             <Text style={styles.userAt}>@</Text>
             <Text style={styles.userAt}>{owner.uniqueKey}</Text>
           </View>
-        </View>
-        {/*<Feather name={'more-vertical'} style={styles.moreButton} />*/}
+        </TouchableOpacity>
         <PopupMenu options={moreMenuOpts} />
       </View>
       <TouchableOpacity onPress={openPostPage}>

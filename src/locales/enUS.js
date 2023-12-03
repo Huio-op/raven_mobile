@@ -84,5 +84,7 @@ export default {
   profile: {
     following: 'Following',
     followers: 'Followers',
+    follow: 'Follow',
+    edit: 'Edit',
   },
 };

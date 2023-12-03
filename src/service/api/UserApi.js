@@ -11,8 +11,8 @@ export default {
     });
     return data;
   },
-  async getUser({ userId, token }) {
-    const { data } = await HttpClient.get(`api/user/${userId}`, {
+  async getUser({ profileUserId, userId, token }) {
+    const { data } = await HttpClient.get(`api/user/${profileUserId}`, {
       headers: { token: `${token}/${userId}` },
     });
     return data;

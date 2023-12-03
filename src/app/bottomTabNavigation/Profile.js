@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import CustomButton from '/components/CustomButton';
+import CustomButton, { BUTTON_TYPES } from '/components/CustomButton';
 import { useAuth } from '../../hooks/useAuth';
 import { COLORS, FONTS, images } from '../../constants';
 import UserApi from '../../service/api/UserApi';
@@ -16,6 +16,8 @@ import { useTranslation } from 'react-i18next';
 import { Feather } from '@expo/vector-icons';
 import PostApi from '../../service/api/PostApi';
 import Post from '../../components/posts/Post';
+import { router, useLocalSearchParams } from 'expo-router';
+import IconButton from '../../components/IconButton';
 
 export default function Profile() {
   const { t } = useTranslation();
@@ -24,10 +26,16 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
   const [userPosts, setUserPosts] = useState([]);
+  const { userId } = useLocalSearchParams();
+  const isOwnProfile = !userId || userId === user.userId;
 
   const fetchUserInfo = async () => {
     try {
-      return await UserApi.getUser({ userId: user.userId, token: user.token });
+      return await UserApi.getUser({
+        profileUserId: isOwnProfile ? user.userId : userId,
+        userId: user.userId,
+        token: user.token,
+      });
     } catch (e) {
       console.error('Error on function fetchUserInfo()', e);
     }
@@ -62,6 +70,10 @@ export default function Profile() {
     return;
   }
 
+  const backToFeed = () => {
+    router.replace(`/bottomTabNavigation/Feed`);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.banner}>
@@ -95,10 +107,20 @@ export default function Profile() {
           fascism is direct force. There's no magic word or ancient prophecy to beat it."
         </Text>
         <View style={styles.buttonsWrapper}>
-          <CustomButton
-            customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
-            title={t('profile.follow')}
-          />
+          {isOwnProfile && (
+            <CustomButton
+              customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
+              title={t('profile.edit')}
+              type={BUTTON_TYPES.WHITE}
+            />
+          )}
+          {!isOwnProfile && (
+            <CustomButton
+              customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
+              title={t('profile.follow')}
+            />
+          )}
+
           <TouchableOpacity style={styles.moreWrapper}>
             <Feather size={26} name={'more-horizontal'} />
           </TouchableOpacity>

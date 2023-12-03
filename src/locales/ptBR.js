@@ -84,5 +84,6 @@ export default {
     following: 'Seguindo',
     followers: 'Seguidores',
     follow: 'Seguir',
+    edit: 'Editar',
   },
 };
