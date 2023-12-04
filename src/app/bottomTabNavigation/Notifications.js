@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { COLORS, FONTS } from '../../constants';
+import Notification from '../../components/notifiactions/Notification';
 
 export default function Notifications() {
   return (
     <View style={styles.container}>
       <Text style={styles.tabText}>Notifications</Text>
+      {/*<Notification />*/}
     </View>
   );
 }
