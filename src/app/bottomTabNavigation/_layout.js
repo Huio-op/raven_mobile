@@ -46,6 +46,7 @@ export default function BottomTabNavigationLayout() {
         <Tabs.Screen
           name={'Search'}
           options={{
+            unmountOnBlur: true,
             tabBarIcon: ({ focused }) => {
               return (
                 <View style={styles.viewCenter}>
@@ -77,6 +78,7 @@ export default function BottomTabNavigationLayout() {
         <Tabs.Screen
           name={'Notifications'}
           options={{
+            unmountOnBlur: true,
             tabBarIcon: ({ focused }) => {
               return (
                 <View style={styles.viewCenter}>
@@ -112,6 +114,14 @@ export default function BottomTabNavigationLayout() {
         <Tabs.Screen
           name={'FullPost'}
           options={{
+            unmountOnBlur: true,
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name={'EditProfile'}
+          options={{
+            unmountOnBlur: true,
             href: null,
           }}
         />

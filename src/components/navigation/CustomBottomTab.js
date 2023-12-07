@@ -1,5 +1,6 @@
 import { Image, Pressable, View, StyleSheet, Text } from 'react-native';
 import { images } from '../../constants';
+import { SPECIAL_ROUTES } from '../CustomTitle';
 
 export default function CustomBottomTab({
   state: { index: activeIndex, routes },
@@ -11,7 +12,7 @@ export default function CustomBottomTab({
       <Image source={images.background} style={styles.bottomTabBg}></Image>
       <View style={styles.tabBarContainer}>
         {routes
-          .filter((route) => route.name != 'FullPost')
+          .filter((route) => !SPECIAL_ROUTES.some((r) => r.key === route.name))
           .map((route, index) => {
             const active = index === activeIndex;
             const { options } = descriptors[route.key];
@@ -43,14 +44,14 @@ const styles = StyleSheet.create({
     width: '100%',
     objectFit: 'fill',
     position: 'absolute',
-    bottom: 0,
+    bottom: -20,
   },
   tabBarContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     backgroundColor: 'transparent',
     height: 90,
-    top: -40,
+    top: -20,
   },
   navigationButton: {
     alignItems: 'center',

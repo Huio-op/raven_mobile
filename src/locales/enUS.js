@@ -49,6 +49,7 @@ export default {
     Notifications: 'Notifications',
     Profile: 'Profile',
     FullPost: 'Post',
+    EditProfile: 'Editing profile',
   },
   feed: {
     home: 'Home screen',
@@ -60,6 +61,7 @@ export default {
     passwordConfirm: 'Confirm password',
     uniqueKey: 'User name',
     birthDate: 'Birth date',
+    save: 'Save',
   },
   createAccount: {
     fillTheForm: 'Fill the form to acess Raven',
@@ -87,5 +89,10 @@ export default {
     follow: 'Follow',
     edit: 'Edit',
     logout: 'Leave',
+    camera: 'Câmera',
+    gallery: 'Galeria',
+    bio: 'Bio',
+    banner: 'Banner',
+    profilePicture: 'Foto de perfil',
   },
 };

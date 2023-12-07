@@ -8,7 +8,6 @@ import yup from '../../service/yup';
 import { COLORS } from '../../constants';
 import { useAuth } from '../../hooks/useAuth';
 import PostApi from '../../service/api/PostApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import CommentApi from '../../service/api/CommentApi';
 

@@ -13,13 +13,12 @@ import { useAuth } from '../../hooks/useAuth';
 import { COLORS, FONTS, images } from '../../constants';
 import UserApi from '../../service/api/UserApi';
 import { useTranslation } from 'react-i18next';
-import { Feather } from '@expo/vector-icons';
 import PostApi from '../../service/api/PostApi';
 import Post from '../../components/posts/Post';
 import { router, useLocalSearchParams } from 'expo-router';
-import IconButton from '../../components/IconButton';
 import PopupMenu from '../../components/posts/PopupMenu';
-import PostReportApi from '../../service/api/PostReportApi';
+import Avatar from '../../components/profile/Avatar';
+import Banner from '../../components/profile/Banner';
 
 export default function Profile() {
   const { t } = useTranslation();
@@ -45,7 +44,7 @@ export default function Profile() {
 
   const fetchPosts = async () => {
     try {
-      let fetchedPosts = await PostApi.fetchAll({ userId: user.userId, token: user.token });
+      let fetchedPosts = await PostApi.fetchPostForUser({ userId: user.userId, token: user.token });
       fetchedPosts = fetchedPosts.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
@@ -86,15 +85,15 @@ export default function Profile() {
     },
   ];
 
+  const editProfile = () => {
+    router.replace(`/bottomTabNavigation/EditProfile`);
+  };
+
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.banner}>
-        <ImageBackground style={styles.bannerImage} source={images.post2} />
-      </View>
+      <Banner />
       <View style={styles.profileBackground}>
-        <View style={styles.profilePicture}>
-          <Image style={styles.userPfp} source={images.user1} />
-        </View>
+        <Avatar customStyles={{ position: 'absolute', top: -50 }} />
         <View style={styles.userFollowStats}>
           <View style={styles.followStat}>
             <Text style={{ fontWeight: 'bold' }}>1k</Text>
@@ -124,6 +123,7 @@ export default function Profile() {
               customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
               title={t('profile.edit')}
               type={BUTTON_TYPES.WHITE}
+              onPress={editProfile}
             />
           )}
           {!isOwnProfile && (
@@ -167,20 +167,6 @@ const styles = StyleSheet.create({
     minHeight: 300,
     borderRadius: 55,
     alignItems: 'center',
-  },
-  profilePicture: {
-    height: 100,
-    width: 100,
-    borderRadius: 100,
-    overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: COLORS.white,
-    position: 'absolute',
-    top: -50,
-  },
-  userPfp: {
-    height: 100,
-    width: 100,
   },
   userFollowStats: {
     width: '100%',

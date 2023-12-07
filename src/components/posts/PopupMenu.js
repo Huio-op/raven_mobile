@@ -16,7 +16,12 @@ import { COLORS } from '../../constants';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function PopupMenu({ options = [], icon = 'more-vertical', customStyles = {} }) {
+export default function PopupMenu({
+  options = [],
+  icon = 'more-vertical',
+  customStyles = {},
+  iconSize = 26,
+}) {
   const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
   const animation = useRef(new Animated.Value(0)).current;
@@ -45,7 +50,7 @@ export default function PopupMenu({ options = [], icon = 'more-vertical', custom
         }}
         style={customStyles}
       >
-        <Feather name={icon} size={26} color={COLORS.black} />
+        <Feather name={icon} size={iconSize} color={COLORS.black} />
       </TouchableOpacity>
       <Modal transparent={true} visible={modalVisible} style={{ height: 10, width: 20 }}>
         <SafeAreaView

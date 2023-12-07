@@ -13,7 +13,7 @@ import RoundedIconButton from './RoundedIconButton';
 import { useMemo, useState } from 'react';
 import WritePostModal from '../posts/WritePostModal';
 import { useGlobalSearchParams, useLocalSearchParams, usePathname } from 'expo-router';
-import { useTranslation } from 'react-i18next';
+import noop from 'lodash';
 
 export default function CreatePostButton() {
   const { postId } = useGlobalSearchParams();
@@ -65,6 +65,7 @@ export default function CreatePostButton() {
       <View style={styles.submenu}>
         <RoundedIconButton
           icon={'camera'}
+          onPress={noop}
           customStyles={[
             styles.hiddenButton,
             {
