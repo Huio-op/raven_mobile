@@ -22,6 +22,7 @@ export default {
     return data;
   },
   async saveUser({ values, userId, token }) {
+    console.log('asdbasyibdasdas', values);
     const { data } = await HttpClient.put(`api/user/${userId}`, values, {
       headers: { token: `${token}/${userId}` },
     });

@@ -113,9 +113,7 @@ export default function Profile() {
             padding: 20,
           }}
         >
-          The ending of Ralph Bakshi's "Wizards" is so fucking important to me because 1. It's
-          hilarious and 2. I think it's brilliant in the way it says "the best way to eliminate
-          fascism is direct force. There's no magic word or ancient prophecy to beat it."
+          {userInfo.userProfile.bio}
         </Text>
         <View style={styles.buttonsWrapper}>
           {isOwnProfile && (

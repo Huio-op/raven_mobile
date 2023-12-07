@@ -132,12 +132,16 @@ export default function EditProfile() {
 
   const saveNewProfile = async (values) => {
     try {
-      delete values.userProfile;
       const savedUser = await UserApi.saveUser({
         values: {
-          name: values.name,
-          uniqueKey: values.uniqueKey,
-          birthDate: values.birthDate,
+          user: {
+            name: values.name,
+            uniqueKey: values.uniqueKey,
+            birthDate: values.birthDate,
+          },
+          userProfile: {
+            ...values.userProfile,
+          },
         },
         userId: user.userId,
         token: user.token,

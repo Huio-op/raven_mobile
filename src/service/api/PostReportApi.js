@@ -3,7 +3,7 @@ import HttpClient from '/service/HttpClient';
 export default {
   async reportPost({ postId, userId, token }) {
     const { data } = await HttpClient.post(
-      '/api/postreport',
+      '/api/post/report',
       {
         userId: userId,
         postId: postId,
@@ -13,7 +13,7 @@ export default {
     return data;
   },
   async fetchAll({ userId, token }) {
-    const { data } = await HttpClient.get('/api/postreport', {
+    const { data } = await HttpClient.get('/api/post/report', {
       headers: { token: `${token}/${userId}` },
     });
     return data;
