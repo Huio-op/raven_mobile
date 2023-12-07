@@ -253,7 +253,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: COLORS.white,
     width: '80%',
-    height: '100%',
     flex: 1,
     alignItems: 'center',
     gap: 5,
