@@ -1,4 +1,4 @@
-import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity, Modal } from 'react-native';
 import { COLORS, FONTS, images } from '../../constants';
 import { Feather, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -8,11 +8,20 @@ import { useAuth } from '../../hooks/useAuth';
 import { useTranslation } from 'react-i18next';
 import PostApi from '../../service/api/PostApi';
 import { router } from 'expo-router';
+import WritePostModal from './WritePostModal';
 
-export default function Post({ post = {}, withInteractions = true }) {
+export default function Post({
+  post = {},
+  withInteractions = true,
+  fullPost = false,
+  isComment = false,
+  originalPostId = null,
+  withChild = false,
+}) {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [likes, setLikes] = useState(post.likes);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const toggleLike = async () => {
     try {
@@ -62,12 +71,26 @@ export default function Post({ post = {}, withInteractions = true }) {
     router.replace(`/bottomTabNavigation/Profile?userId=${post.owner.id}`);
   };
 
+  const openPostModal = () => {
+    setModalOpen(true);
+  };
+
+  const closePostModal = () => {
+    setModalOpen(false);
+  };
+
   const content = post.content;
   const owner = post.owner;
-  const liked = likes.find((like) => like.userId === user.userId);
+  const liked = !isComment && likes.find((like) => like.userId === user.userId);
 
   return (
-    <View style={styles.Post}>
+    <View
+      style={[
+        styles.Post,
+        fullPost || (isComment && !withChild) ? styles.fullPost : {},
+        isComment ? styles.comment : {},
+      ]}
+    >
       <View style={styles.header}>
         <TouchableOpacity style={styles.userPfpWrapper} onPress={openUserProfile}>
           <Image style={styles.userPfp} source={images.user1} />
@@ -81,24 +104,60 @@ export default function Post({ post = {}, withInteractions = true }) {
         </TouchableOpacity>
         <PopupMenu options={moreMenuOpts} />
       </View>
-      <TouchableOpacity onPress={openPostPage}>
-        <Text style={styles.text}>{content}</Text>
-      </TouchableOpacity>
-      {withInteractions && (
-        <View style={styles.interactions}>
-          <View style={styles.leftInteractions}>
-            <InteractionCounter icon={'message-square'} />
-            <InteractionCounter icon={'repeat'} />
-            <InteractionCounter
-              icon={'heart'}
-              count={likes.length}
-              onPress={toggleLike}
-              interacted={liked}
-            />
-          </View>
-          <Feather style={styles.icon} name={'share'} />
+      <View style={{ flexDirection: 'row' }}>
+        {isComment && withChild && (
+          <View
+            style={{
+              borderColor: COLORS.grey,
+              borderWidth: 1,
+              height: 'auto',
+              marginLeft: 17,
+              marginRight: 15,
+            }}
+          ></View>
+        )}
+        <View
+          style={{
+            flexDirection: 'column',
+            width: isComment && withChild ? 'calc(100% - 35px)' : '100%',
+          }}
+        >
+          <TouchableOpacity onPress={openPostPage}>
+            <Text style={styles.text}>{content}</Text>
+          </TouchableOpacity>
+          {withInteractions && (
+            <View style={styles.interactions}>
+              <View style={styles.leftInteractions}>
+                <InteractionCounter
+                  icon={'message-square'}
+                  hideCount={isComment}
+                  onPress={openPostModal}
+                />
+                {!isComment && (
+                  <>
+                    <InteractionCounter icon={'repeat'} />
+                    <InteractionCounter
+                      icon={'heart'}
+                      count={likes.length}
+                      onPress={toggleLike}
+                      interacted={liked}
+                    />
+                  </>
+                )}
+              </View>
+              <Feather style={[styles.icon, { marginRight: 5 }]} name={'share'} />
+            </View>
+          )}
         </View>
-      )}
+      </View>
+
+      <Modal visible={modalOpen} onRequestClose={closePostModal}>
+        <WritePostModal
+          handleClose={closePostModal}
+          postId={originalPostId || post.id}
+          parentCommentId={isComment ? post.id : null}
+        />
+      </Modal>
     </View>
   );
 }
@@ -109,6 +168,7 @@ const InteractionCounter = ({
   onPress = () => {},
   style = {},
   interacted = false,
+  hideCount = false,
 }) => {
   return (
     <Pressable style={[styles.interactionCounter]} onPress={onPress}>
@@ -118,7 +178,9 @@ const InteractionCounter = ({
       {interacted && (
         <FontAwesome style={[styles.icon, interacted ? styles.likedIcon : {}]} name={icon} />
       )}
-      <Text style={[styles.counterNumber, interacted ? styles.likedIcon : {}]}>{count}</Text>
+      {!hideCount && (
+        <Text style={[styles.counterNumber, interacted ? styles.likedIcon : {}]}>{count}</Text>
+      )}
     </Pressable>
   );
 };
@@ -131,6 +193,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22,
     gap: 5,
     width: '100%',
+  },
+  fullPost: {
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.15,
+    shadowColor: 'rgba(0, 0, 0, 0.30)',
+    elevation: 3,
+    backgroundColor: COLORS['light-grey'],
+  },
+  comment: {
+    position: 'relative',
   },
   header: {
     flexDirection: 'row',

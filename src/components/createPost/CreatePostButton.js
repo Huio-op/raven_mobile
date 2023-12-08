@@ -54,7 +54,9 @@ export default function CreatePostButton() {
 
   const closePostModal = () => {
     setModalOpen(false);
-    toggleMenu();
+    if (open) {
+      toggleMenu();
+    }
   };
 
   return (

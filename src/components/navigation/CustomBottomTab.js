@@ -22,7 +22,13 @@ export default function CustomBottomTab({
                 key={route.key}
                 active={active}
                 options={options}
-                onPress={() => navigation.navigate(route.name)}
+                onPress={(e) => {
+                  if (route.name === 'Create') {
+                    e.preventDefault();
+                  } else {
+                    navigation.navigate(route.name);
+                  }
+                }}
               />
             );
           })}

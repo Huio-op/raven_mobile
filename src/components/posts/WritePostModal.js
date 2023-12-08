@@ -8,30 +8,32 @@ import yup from '../../service/yup';
 import { COLORS } from '../../constants';
 import { useAuth } from '../../hooks/useAuth';
 import PostApi from '../../service/api/PostApi';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import CommentApi from '../../service/api/CommentApi';
+import { parseInt } from 'lodash';
 
 const PostSchema = yup.object().shape({
   content: yup.string().min(1).default(''),
 });
 
-export default function WritePostModal({ handleClose, postId = null }) {
+export default function WritePostModal({ handleClose, postId = null, parentCommentId = null }) {
   const { t } = useTranslation();
   const { user } = useAuth();
 
   const createPost = async ({ content }) => {
     try {
       if (postId) {
-        const comment = await CommentApi.createComment({
+        const comment = await CommentApi.createPost({
           content,
           userId: user.userId,
           token: user.token,
-          originalPostId: postId,
+          originalPostId: parseInt(postId),
+          parentCommentId,
         });
-        router.replace(`/bottomTabNavigation/FullPost?postId=${postId}`);
+        router.replace(`/bottomTabNavigation/FullPost?postId=${postId}&refresh=true`);
       } else {
         const post = await PostApi.createPost({ content, userId: user.userId, token: user.token });
-        router.replace('/bottomTabNavigation/Feed');
+        router.replace('/bottomTabNavigation/Feed?refresh=true');
       }
       handleClose();
     } catch (e) {

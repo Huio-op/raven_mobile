@@ -5,11 +5,13 @@ import { useTranslation } from 'react-i18next';
 import Post from '../../components/posts/Post';
 import PostApi from '../../service/api/PostApi';
 import { useAuth } from '../../hooks/useAuth';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function Feed() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const [posts, setPosts] = useState([]);
+  const { refresh } = useLocalSearchParams();
 
   const fetchPosts = async () => {
     try {
@@ -26,6 +28,10 @@ export default function Feed() {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [refresh]);
 
   return (
     <SafeAreaView style={styles.pageWrapper}>

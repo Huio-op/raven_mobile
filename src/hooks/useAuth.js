@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserApi from '../service/api/UserApi';
 
 const AuthContext = createContext({});
 
@@ -29,7 +30,12 @@ export const AuthProvider = ({ children }) => {
     let sessionUser = null;
     try {
       sessionUser = await AsyncStorage.getItem('LOGIN_TOKEN');
-    } catch (ignored) {
+      await UserApi.getUser({
+        profileUserId: sessionUser.userId,
+        userId: sessionUser.userId,
+        token: sessionUser.token,
+      });
+    } catch (e) {
     } finally {
       if (!sessionUser) {
         await logout();
