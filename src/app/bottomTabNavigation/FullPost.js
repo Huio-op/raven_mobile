@@ -57,11 +57,11 @@ export default function FullPost() {
   const returnCommentComment = (commentForChild) => {
     const commentComments = comments.filter((c) => c.parentCommentId === commentForChild.id);
 
-    return commentComments.map((commentComment) => {
+    return commentComments.map((commentComment, idx) => {
       const hasChild = comments.find((c) => c.parentCommentId === commentComment.id);
 
       return (
-        <>
+        <View key={`comment-${commentComment}-${idx}`}>
           <Post
             key={`comment-${commentForChild.id}`}
             post={commentComment}
@@ -70,7 +70,7 @@ export default function FullPost() {
             withChild={hasChild}
           />
           {hasChild && returnCommentComment(commentComment)}
-        </>
+        </View>
       );
     });
   };
