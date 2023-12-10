@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import PostApi from '../../service/api/PostApi';
 import { useAuth } from '../../hooks/useAuth';
@@ -76,7 +76,7 @@ export default function FullPost() {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {postInfo && (
         <View style={{ backgroundColor: COLORS['light-grey'], gap: 5, borderRadius: 30 }}>
           <Post post={postInfo} fullPost={true} />
@@ -84,9 +84,8 @@ export default function FullPost() {
             const hasChild = comments.find((c) => c.parentCommentId === comment.id);
 
             return (
-              <View>
+              <View key={`comment-${comment.id}`}>
                 <Post
-                  key={`comment-${comment.id}`}
                   post={comment}
                   isComment={true}
                   originalPostId={comment.originalPostId}
@@ -98,7 +97,7 @@ export default function FullPost() {
           })}
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -108,5 +107,6 @@ const styles = new StyleSheet.create({
     flex: 1,
     paddingTop: 10,
     paddingHorizontal: 10,
+    marginBottom: 50,
   },
 });

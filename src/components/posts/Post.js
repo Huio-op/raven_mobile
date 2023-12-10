@@ -23,7 +23,7 @@ export default function Post({
   const { user } = useAuth();
   const [likes, setLikes] = useState(post.likes);
   const [modalOpen, setModalOpen] = useState(false);
-
+  console.log(' ahbdsahjdbajsdasdas', post);
   const toggleLike = async () => {
     try {
       const res = await PostApi.likePost({
@@ -110,7 +110,7 @@ export default function Post({
         {isComment && withChild && (
           <View
             style={{
-              borderColor: COLORS.grey,
+              borderColor: 'rgba(0,0,0, 0.25)',
               borderWidth: 1,
               height: 'auto',
               marginLeft: 17,
@@ -137,7 +137,6 @@ export default function Post({
                 />
                 {!isComment && (
                   <>
-                    <InteractionCounter icon={'repeat'} />
                     <InteractionCounter
                       icon={'heart'}
                       count={likes.length}
@@ -239,7 +238,7 @@ const styles = StyleSheet.create({
   },
   leftInteractions: {
     flexDirection: 'row',
-    gap: 6,
+    gap: 10,
   },
   icon: {
     fontSize: 16,

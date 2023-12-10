@@ -27,6 +27,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(false);
   const [userInfo, setUserInfo] = useState();
   const [userPosts, setUserPosts] = useState([]);
+  const [isFollowing, setIsFollowing] = useState(false);
   const { userId } = useLocalSearchParams();
   const isOwnProfile = !userId || userId === user.userId;
 
@@ -59,13 +60,31 @@ export default function Profile() {
     }
   };
 
+  const isFollowingUser = async () => {
+    try {
+      const response = UserApi.isFollowingUser({
+        userToSearch: isOwnProfile ? user.userId : userId,
+        userId: user.userId,
+        token: user.token,
+      });
+      return response;
+    } catch (e) {
+      console.error('Error on function isFollowingUser()', e);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const [fetchedInfo, fetchedPosts] = await Promise.all([fetchUserInfo(), fetchPosts()]);
+        const [fetchedInfo, fetchedPosts, following] = await Promise.all([
+          fetchUserInfo(),
+          fetchPosts(),
+          isFollowingUser(),
+        ]);
         setUserInfo(fetchedInfo);
         setUserPosts(fetchedPosts);
+        setIsFollowing(following);
       } finally {
         setLoading(false);
       }
@@ -94,6 +113,18 @@ export default function Profile() {
     router.replace(`/bottomTabNavigation/EditProfile`);
   };
 
+  const followUser = async () => {
+    try {
+      await UserApi.userFollow({ userToFollow: userId, userId: user.userId, token: user.token });
+      const updatedFollowing = await isFollowingUser();
+      setIsFollowing(updatedFollowing);
+      const updatedUserInfo = await fetchUserInfo();
+      setUserInfo(updatedUserInfo);
+    } catch (e) {
+      console.error('Error on function followUser()', e);
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Banner />
@@ -101,11 +132,11 @@ export default function Profile() {
         <Avatar customStyles={{ position: 'absolute', top: -50 }} />
         <View style={styles.userFollowStats}>
           <View style={styles.followStat}>
-            <Text style={{ fontWeight: 'bold' }}>1k</Text>
+            <Text style={{ fontWeight: 'bold' }}>{userInfo._count.followedBy}</Text>
             <Text>{t('profile.followers')}</Text>
           </View>
           <View style={styles.followStat}>
-            <Text style={{ fontWeight: 'bold' }}>342</Text>
+            <Text style={{ fontWeight: 'bold' }}>{userInfo._count.following}</Text>
             <Text>{t('profile.following')}</Text>
           </View>
         </View>
@@ -132,15 +163,19 @@ export default function Profile() {
           {!isOwnProfile && (
             <CustomButton
               customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
-              title={t('profile.follow')}
+              title={t(isFollowing ? 'profile.following' : 'profile.follow')}
+              type={isFollowing ? BUTTON_TYPES.WHITE : BUTTON_TYPES.PRIMARY}
+              onPress={followUser}
             />
           )}
 
-          <PopupMenu
-            options={profileOpts}
-            icon={'more-horizontal'}
-            customStyles={styles.moreWrapper}
-          />
+          {isOwnProfile && (
+            <PopupMenu
+              options={profileOpts}
+              icon={'more-horizontal'}
+              customStyles={styles.moreWrapper}
+            />
+          )}
         </View>
       </View>
       <View style={styles.postsWrapper}>
