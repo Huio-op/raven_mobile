@@ -5,7 +5,7 @@ import { router } from 'expo-router';
 
 export default function ProfileLink({ user }) {
   const openUserProfile = async () => {
-    router.replace(`/bottomTabNavigation/Profile?userId=${post.owner.id}`);
+    router.replace(`/bottomTabNavigation/Profile?userId=${user.id}`);
   };
 
   return (

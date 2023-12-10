@@ -44,7 +44,12 @@ export default function Profile() {
 
   const fetchPosts = async () => {
     try {
-      let fetchedPosts = await PostApi.fetchPostForUser({ userId: user.userId, token: user.token });
+      let fetchedPosts = await PostApi.fetchPostForUser({
+        profileId: isOwnProfile ? user.userId : userId,
+        userId: user.userId,
+        token: user.token,
+      });
+
       fetchedPosts = fetchedPosts.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });

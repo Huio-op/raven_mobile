@@ -42,8 +42,8 @@ export default {
     );
     return data;
   },
-  async fetchPostForUser({ userId, token }) {
-    const { data } = await HttpClient.get(`/api/post/user/${userId}`, {
+  async fetchPostForUser({ profileId, userId, token }) {
+    const { data } = await HttpClient.get(`/api/post/user/${profileId}`, {
       headers: { token: `${token}/${userId}` },
     });
     return data;
