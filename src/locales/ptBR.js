@@ -94,4 +94,7 @@ export default {
     banner: 'Banner',
     profilePicture: 'Foto de perfil',
   },
+  search: {
+    search: 'Pesquisar',
+  },
 };

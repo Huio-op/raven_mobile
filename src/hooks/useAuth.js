@@ -30,11 +30,6 @@ export const AuthProvider = ({ children }) => {
     let sessionUser = null;
     try {
       sessionUser = await AsyncStorage.getItem('LOGIN_TOKEN');
-      await UserApi.getUser({
-        profileUserId: sessionUser.userId,
-        userId: sessionUser.userId,
-        token: sessionUser.token,
-      });
     } catch (e) {
     } finally {
       if (!sessionUser) {

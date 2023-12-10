@@ -17,6 +17,7 @@ export default function Post({
   isComment = false,
   originalPostId = null,
   withChild = false,
+  customStyle = {},
 }) {
   const { t } = useTranslation();
   const { user } = useAuth();
@@ -89,6 +90,7 @@ export default function Post({
         styles.Post,
         fullPost || (isComment && !withChild) ? styles.fullPost : {},
         isComment ? styles.comment : {},
+        customStyle,
       ]}
     >
       <View style={styles.header}>
