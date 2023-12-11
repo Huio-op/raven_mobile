@@ -18,7 +18,7 @@ export default function SearchField({ onSearch = noop }) {
     <View>
       <View style={styles.SearchField}>
         <Input
-          outerStyle={{ width: 'calc(100% - 30px)' }}
+          outerStyle={{ flex: 1 }}
           customStyle={styles.field}
           onChangeText={(text) => {
             setSearchTerm(text);

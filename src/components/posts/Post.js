@@ -1,6 +1,6 @@
 import { Image, Text, View, StyleSheet, Pressable, TouchableOpacity, Modal } from 'react-native';
 import { COLORS, FONTS, images } from '../../constants';
-import { Feather, FontAwesome } from '@expo/vector-icons';
+import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 import PopupMenu from './PopupMenu';
 import PostReportApi from '../../service/api/PostReportApi';
@@ -23,7 +23,7 @@ export default function Post({
   const { user } = useAuth();
   const [likes, setLikes] = useState(post.likes);
   const [modalOpen, setModalOpen] = useState(false);
-  console.log(' ahbdsahjdbajsdasdas', post);
+
   const toggleLike = async () => {
     try {
       const res = await PostApi.likePost({
@@ -134,6 +134,7 @@ export default function Post({
                   icon={'message-square'}
                   hideCount={isComment}
                   onPress={openPostModal}
+                  count={post._count?.comments}
                 />
                 {!isComment && (
                   <>
@@ -146,7 +147,7 @@ export default function Post({
                   </>
                 )}
               </View>
-              <Feather style={[styles.icon, { marginRight: 5 }]} name={'share'} />
+              {/*<Feather style={[styles.icon, { marginRight: 5 }]} name={'share'} />*/}
             </View>
           )}
         </View>

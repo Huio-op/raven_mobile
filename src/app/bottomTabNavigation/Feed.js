@@ -1,4 +1,12 @@
-import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { FONTS, COMPONENTS } from '/constants';
 import { useTranslation } from 'react-i18next';
@@ -10,9 +18,13 @@ import { useLocalSearchParams } from 'expo-router';
 export default function Feed() {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
   const { refresh } = useLocalSearchParams();
-
+  const [layout, setLayout] = useState({
+    width: 0,
+    height: 0,
+  });
+  const [refreshing, setRefreshing] = useState(false);
   const fetchPosts = async () => {
     try {
       let fetchedPosts = await PostApi.fetchAll({ userId: user.userId, token: user.token });
@@ -33,14 +45,36 @@ export default function Feed() {
     fetchPosts();
   }, [refresh]);
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    try {
+      fetchPosts();
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.pageWrapper}>
       <View style={styles.view}>
-        <ScrollView contentContainerStyle={styles.feedPage}>
-          {posts.map((post, idx) => {
-            return <Post key={`${post.id}-${idx}`} post={post} />;
-          })}
-        </ScrollView>
+        {posts && (
+          <FlatList
+            onLayout={(event) => setLayout(event.nativeEvent.layout)}
+            contentContainerStyle={styles.feedPage}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+            data={posts}
+            renderItem={({ item, idx }) => {
+              return (
+                <Post
+                  key={`${item.id}-${idx}`}
+                  post={item}
+                  customStyle={{ width: layout.width - 20 }}
+                />
+              );
+            }}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -63,6 +97,7 @@ const styles = StyleSheet.create({
     gap: 10,
     marginBottom: 70,
     paddingHorizontal: 10,
+    width: '100%',
   },
   headerWrapper: {
     flexDirection: 'row',

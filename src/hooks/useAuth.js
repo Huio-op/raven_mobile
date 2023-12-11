@@ -28,11 +28,21 @@ export const AuthProvider = ({ children }) => {
 
   const checkSessionExpired = async () => {
     let sessionUser = null;
+    let loggedUser = null;
     try {
       sessionUser = await AsyncStorage.getItem('LOGIN_TOKEN');
+
+      if (sessionUser) {
+        const parsedUser = JSON.parse(sessionUser);
+        loggedUser = await UserApi.getUser({
+          profileUserId: parsedUser.userId,
+          userId: parsedUser.userId,
+          token: parsedUser.token,
+        });
+      }
     } catch (e) {
     } finally {
-      if (!sessionUser) {
+      if (!sessionUser || !loggedUser) {
         await logout();
       } else {
         try {

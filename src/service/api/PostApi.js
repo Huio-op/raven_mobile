@@ -48,4 +48,10 @@ export default {
     });
     return data;
   },
+  async fetchFollowingPosts({ userId, token }) {
+    const { data } = await HttpClient.get(`/api/post/${userId}/following`, {
+      headers: { token: `${token}/${userId}` },
+    });
+    return data;
+  },
 };
