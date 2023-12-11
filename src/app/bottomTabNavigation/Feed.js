@@ -14,6 +14,7 @@ import Post from '../../components/posts/Post';
 import PostApi from '../../service/api/PostApi';
 import { useAuth } from '../../hooks/useAuth';
 import { useLocalSearchParams } from 'expo-router';
+import UserApi from '../../service/api/UserApi';
 
 export default function Feed() {
   const { t } = useTranslation();
@@ -27,7 +28,23 @@ export default function Feed() {
   const [refreshing, setRefreshing] = useState(false);
   const fetchPosts = async () => {
     try {
-      let fetchedPosts = await PostApi.fetchAll({ userId: user.userId, token: user.token });
+      const fetchedUser = await UserApi.getUser({
+        profileUserId: user.userId,
+        userId: user.userId,
+        token: user.token,
+      });
+
+      let fetchedPosts = null;
+
+      if (fetchedUser._count.following > 5) {
+        fetchedPosts = await PostApi.fetchFollowingPosts({
+          userId: user.userId,
+          token: user.token,
+        });
+      } else {
+        fetchedPosts = await PostApi.fetchAll({ userId: user.userId, token: user.token });
+      }
+
       fetchedPosts = fetchedPosts.sort((a, b) => {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
