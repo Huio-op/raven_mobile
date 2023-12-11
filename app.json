@@ -20,8 +20,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/raven_icon.png",
-        "backgroundColor": "#FFF9E8"
+        "foregroundImage": "./assets/adaptative_app_icon.png",
+        "backgroundColor": "#E6EEFA"
       },
       "package": "com.anonymous.myapp"
     },
