@@ -19,6 +19,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import PopupMenu from '../../components/posts/PopupMenu';
 import Avatar from '../../components/profile/Avatar';
 import Banner from '../../components/profile/Banner';
+import UiBlocker from '../../components/UiBlocker';
 
 export default function Profile() {
   const { t } = useTranslation();
@@ -126,64 +127,66 @@ export default function Profile() {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Banner />
-      <View style={styles.profileBackground}>
-        <Avatar customStyles={{ position: 'absolute', top: -50 }} />
-        <View style={styles.userFollowStats}>
-          <View style={styles.followStat}>
-            <Text style={{ fontWeight: 'bold' }}>{userInfo._count.followedBy}</Text>
-            <Text>{t('profile.followers')}</Text>
+    <UiBlocker block={loading}>
+      <ScrollView style={styles.container}>
+        <Banner />
+        <View style={styles.profileBackground}>
+          <Avatar customStyles={{ position: 'absolute', top: -50 }} />
+          <View style={styles.userFollowStats}>
+            <View style={styles.followStat}>
+              <Text style={{ fontWeight: 'bold' }}>{userInfo._count.followedBy}</Text>
+              <Text>{t('profile.followers')}</Text>
+            </View>
+            <View style={styles.followStat}>
+              <Text style={{ fontWeight: 'bold' }}>{userInfo._count.following}</Text>
+              <Text>{t('profile.following')}</Text>
+            </View>
           </View>
-          <View style={styles.followStat}>
-            <Text style={{ fontWeight: 'bold' }}>{userInfo._count.following}</Text>
-            <Text>{t('profile.following')}</Text>
+          <View style={styles.userNameWrapper}>
+            <Text style={styles.userName}>{userInfo.name}</Text>
+            <Text style={styles.userKey}>@{userInfo.uniqueKey}</Text>
           </View>
-        </View>
-        <View style={styles.userNameWrapper}>
-          <Text style={styles.userName}>{userInfo.name}</Text>
-          <Text style={styles.userKey}>@{userInfo.uniqueKey}</Text>
-        </View>
-        <Text
-          style={{
-            padding: 20,
-          }}
-        >
-          {userInfo.userProfile.bio}
-        </Text>
-        <View style={styles.buttonsWrapper}>
-          {isOwnProfile && (
-            <CustomButton
-              customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
-              title={t('profile.edit')}
-              type={BUTTON_TYPES.WHITE}
-              onPress={editProfile}
-            />
-          )}
-          {!isOwnProfile && (
-            <CustomButton
-              customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
-              title={t(isFollowing ? 'profile.following' : 'profile.follow')}
-              type={isFollowing ? BUTTON_TYPES.WHITE : BUTTON_TYPES.PRIMARY}
-              onPress={followUser}
-            />
-          )}
+          <Text
+            style={{
+              padding: 20,
+            }}
+          >
+            {userInfo.userProfile.bio}
+          </Text>
+          <View style={styles.buttonsWrapper}>
+            {isOwnProfile && (
+              <CustomButton
+                customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
+                title={t('profile.edit')}
+                type={BUTTON_TYPES.WHITE}
+                onPress={editProfile}
+              />
+            )}
+            {!isOwnProfile && (
+              <CustomButton
+                customStyles={{ paddingHorizontal: 40, borderRadius: 50, height: 40 }}
+                title={t(isFollowing ? 'profile.following' : 'profile.follow')}
+                type={isFollowing ? BUTTON_TYPES.WHITE : BUTTON_TYPES.PRIMARY}
+                onPress={followUser}
+              />
+            )}
 
-          {isOwnProfile && (
-            <PopupMenu
-              options={profileOpts}
-              icon={'more-horizontal'}
-              customStyles={styles.moreWrapper}
-            />
-          )}
+            {isOwnProfile && (
+              <PopupMenu
+                options={profileOpts}
+                icon={'more-horizontal'}
+                customStyles={styles.moreWrapper}
+              />
+            )}
+          </View>
         </View>
-      </View>
-      <View style={styles.postsWrapper}>
-        {userPosts.map((post, idx) => {
-          return <Post key={`${post.id}-${idx}`} post={post} />;
-        })}
-      </View>
-    </ScrollView>
+        <View style={styles.postsWrapper}>
+          {userPosts.map((post, idx) => {
+            return <Post key={`${post.id}-${idx}`} post={post} />;
+          })}
+        </View>
+      </ScrollView>
+    </UiBlocker>
   );
 }
 

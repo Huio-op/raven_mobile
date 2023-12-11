@@ -15,6 +15,7 @@ import PostApi from '../../service/api/PostApi';
 import { useAuth } from '../../hooks/useAuth';
 import { useLocalSearchParams } from 'expo-router';
 import UserApi from '../../service/api/UserApi';
+import UiBlocker from '../../components/UiBlocker';
 
 export default function Feed() {
   const { t } = useTranslation();
@@ -26,8 +27,10 @@ export default function Feed() {
     height: 0,
   });
   const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const fetchPosts = async () => {
     try {
+      setLoading(true);
       const fetchedUser = await UserApi.getUser({
         profileUserId: user.userId,
         userId: user.userId,
@@ -51,6 +54,8 @@ export default function Feed() {
       setPosts(fetchedPosts);
     } catch (e) {
       console.error('Error on function fetchPosts()', e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,26 +78,28 @@ export default function Feed() {
 
   return (
     <SafeAreaView style={styles.pageWrapper}>
-      <View style={styles.view}>
-        {posts && (
-          <FlatList
-            onLayout={(event) => setLayout(event.nativeEvent.layout)}
-            contentContainerStyle={styles.feedPage}
-            refreshing={refreshing}
-            onRefresh={handleRefresh}
-            data={posts}
-            renderItem={({ item, idx }) => {
-              return (
-                <Post
-                  key={`${item.id}-${idx}`}
-                  post={item}
-                  customStyle={{ width: layout.width - 20 }}
-                />
-              );
-            }}
-          />
-        )}
-      </View>
+      <UiBlocker block={loading}>
+        <View style={styles.view}>
+          {posts && (
+            <FlatList
+              onLayout={(event) => setLayout(event.nativeEvent.layout)}
+              contentContainerStyle={styles.feedPage}
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              data={posts}
+              renderItem={({ item, idx }) => {
+                return (
+                  <Post
+                    key={`${item.id}-${idx}`}
+                    post={item}
+                    customStyle={{ width: layout.width - 20 }}
+                  />
+                );
+              }}
+            />
+          )}
+        </View>
+      </UiBlocker>
     </SafeAreaView>
   );
 }

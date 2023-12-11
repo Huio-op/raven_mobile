@@ -6,13 +6,16 @@ import SearchApi from '../../service/api/SearchApi';
 import { useAuth } from '../../hooks/useAuth';
 import Post from '../../components/posts/Post';
 import ProfileLink from '../../components/profile/ProfileLink';
+import UiBlocker from '../../components/UiBlocker';
 
 export default function Search() {
   const { user } = useAuth();
   const [searchResult, setSearchResult] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const doSearch = async (searchTerm) => {
     try {
+      setLoading(true);
       const result = await SearchApi.doSearch({
         searchTerm,
         userId: user.userId,
@@ -22,38 +25,42 @@ export default function Search() {
       setSearchResult(result);
     } catch (e) {
       console.error('Error on function doSearch()', e);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <View style={styles.container}>
       <SearchField onSearch={doSearch} />
-      {searchResult && (
-        <>
-          <View
-            style={{
-              height: 125,
-            }}
-          >
-            <ScrollView style={styles.userScroll} horizontal={true}>
-              {searchResult.users.map((user, idx) => {
-                return <ProfileLink key={`userProfile-${user.id}-${idx}`} user={user} />;
+      <UiBlocker block={loading}>
+        {searchResult && (
+          <>
+            <View
+              style={{
+                height: 125,
+              }}
+            >
+              <ScrollView style={styles.userScroll} horizontal={true}>
+                {searchResult.users.map((user, idx) => {
+                  return <ProfileLink key={`userProfile-${user.id}-${idx}`} user={user} />;
+                })}
+              </ScrollView>
+            </View>
+            <ScrollView style={styles.postScroll}>
+              {searchResult.posts.map((post, idx) => {
+                return (
+                  <Post
+                    key={`post-${post.id}-${idx}`}
+                    post={post}
+                    customStyle={{ marginBottom: 5 }}
+                  />
+                );
               })}
             </ScrollView>
-          </View>
-          <ScrollView style={styles.postScroll}>
-            {searchResult.posts.map((post, idx) => {
-              return (
-                <Post
-                  key={`post-${post.id}-${idx}`}
-                  post={post}
-                  customStyle={{ marginBottom: 5 }}
-                />
-              );
-            })}
-          </ScrollView>
-        </>
-      )}
+          </>
+        )}
+      </UiBlocker>
     </View>
   );
 }

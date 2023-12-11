@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: COLORS.cream,
+    backgroundColor: COLORS['light-grey'],
   },
   postHeader: {
     height: 80,
@@ -109,9 +109,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 25,
   },
   contentInput: {
-    height: 200,
+    borderRadius: 15,
+    padding: 10,
+    height: 250,
     fontSize: 20,
-    borderBottomWidth: 2,
-    borderColor: COLORS['light-grey'],
+    borderWidth: 2,
+    borderColor: COLORS.grey,
+    textAlign: 'left',
+    textAlignVertical: 'top',
   },
 });

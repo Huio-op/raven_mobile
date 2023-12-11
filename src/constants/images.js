@@ -19,6 +19,7 @@ const post5 = require('../../assets/images/post5.jpg');
 const raven = require('../../assets/images/raven.png');
 const raven_icon = require('../../assets/raven_icon.png');
 const background = require('../../assets/images/Background.png');
+const spinner = require('../../assets/images/spinner.gif');
 
 export default {
   hero,
@@ -42,4 +43,5 @@ export default {
   raven,
   raven_icon,
   background,
+  spinner,
 };
