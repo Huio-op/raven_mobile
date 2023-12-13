@@ -4,12 +4,12 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "http://192.168.3.234:3030"
-      }
+        "EXPO_PUBLIC_API_BASE_URL": "http://177.44.248.81:3030"
+      },
     },
     "preview": {
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "http://192.168.3.234:3030"
+        "EXPO_PUBLIC_API_BASE_URL": "http://177.44.248.81:3030"
       },
       "android": {
         "buildType": "apk"
