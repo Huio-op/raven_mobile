@@ -18,4 +18,10 @@ export default {
     });
     return data;
   },
+  async deleteReport({ reportId, userId, token }) {
+    const { data } = await HttpClient.delete(`/api/post/report/${reportId}`, {
+      headers: { token: `${token}/${userId}` },
+    });
+    return data;
+  },
 };

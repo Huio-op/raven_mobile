@@ -28,12 +28,12 @@ export default function Post({
     try {
       const res = await PostApi.likePost({
         postId: post.id,
-        userId: user.userId,
-        token: user.token,
+        userId: user?.userId,
+        token: user?.token,
       });
       if (res === 'Deleted') {
         likes.splice(
-          likes.indexOf(likes.find((l) => l.postId === post.id && l.userId === user.userId)),
+          likes.indexOf(likes.find((l) => l.postId === post.id && l.userId === user?.userId)),
           1
         );
       } else {
@@ -53,8 +53,8 @@ export default function Post({
         try {
           await PostReportApi.reportPost({
             postId: post.id,
-            userId: user.userId,
-            token: user.token,
+            userId: user?.userId,
+            token: user?.token,
           });
           alert(t('post.more.reportSuccess'));
         } catch (e) {
@@ -82,7 +82,7 @@ export default function Post({
 
   const content = post.content;
   const owner = post.owner;
-  const liked = !isComment && likes.find((like) => like.userId === user.userId);
+  const liked = !isComment && likes.find((like) => like.userId === user?.userId);
 
   return (
     <View

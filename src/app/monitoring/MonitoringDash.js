@@ -12,9 +12,10 @@ export default function MonitoringDash() {
 
   const deletePost = async (postId) => {
     try {
-      PostApi.delete({ postId, userId: 1, token: 'monitoring_token' });
+      await PostApi.delete({ postId, userId: 1, token: 'f44b9db9d62749bc7209e27778c4efd0' });
+      await fetchReported();
     } catch (e) {
-      console.error('Error on funtion deletePost()', e);
+      console.error('Error on function deletePost()', e);
     }
   };
 
@@ -22,7 +23,7 @@ export default function MonitoringDash() {
     try {
       const fetchedReports = await PostReportApi.fetchAll({
         userId: 1,
-        token: 'monitoring_token',
+        token: 'f44b9db9d62749bc7209e27778c4efd0',
       });
       setReports(fetchedReports);
     } catch (e) {
@@ -34,7 +35,20 @@ export default function MonitoringDash() {
     fetchReported();
   }, []);
 
-  const acceptPost = async (postId) => {};
+  const acceptPost = async (reportId) => {
+    try {
+      await PostReportApi.deleteReport({
+        reportId,
+        userId: 1,
+        token: 'f44b9db9d62749bc7209e27778c4efd0',
+      });
+      setTimeout(async () => {
+        await fetchReported();
+      }, 200);
+    } catch (e) {
+      console.error('Error on function acceptPost()', e);
+    }
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.feedPage}>
@@ -62,7 +76,7 @@ export default function MonitoringDash() {
               <FeatherButton
                 icon={'check'}
                 customStyles={styles.checkButton}
-                onPress={() => acceptPost(post.id)}
+                onPress={() => acceptPost(report.id)}
               />
             </View>
           </View>
